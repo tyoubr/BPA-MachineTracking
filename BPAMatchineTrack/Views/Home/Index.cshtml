@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        overflow: hidden; /* Prevent scrolling */
+    }
+
+    .bg-image {
+        /* The image used */
+        background-image: url('/images/how-to-use-a-sewing-machine.webp'); /* Replace with your image path */
+        /* Full height */
+        height: 100%;
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .text-center {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        color: white; /* Adjust text color for better visibility */
+    }
+</style>
+
+<div class="bg-image">
+    <div class="text-center">
+        <h1 class="display-4">Welcome To SEWING Machine Track</h1>
+    </div>
+</div>

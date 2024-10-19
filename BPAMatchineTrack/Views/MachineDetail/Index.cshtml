@@ -1,0 +1,125 @@
+﻿@model IEnumerable<BPAMatchineTrack.Models.tbl_Machine_Detail>
+
+@{
+    ViewData["Title"] = "Machine Information";
+    string searchTerm = ViewData["searchTerm"] as string ?? "";
+    int currentPage = (int)ViewData["CurrentPage"];
+    int totalPages = (int)ViewData["TotalPages"];
+    int maxPageLinks = 5; // Number of page links to display
+    int startPage = Math.Max(1, currentPage - maxPageLinks / 2);
+    int endPage = Math.Min(totalPages, startPage + maxPageLinks - 1);
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>@ViewData["Title"]</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="~/Home/Index">Home</a></li>
+                    <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Machines List</h3>
+                        <div class="card-tools">
+                            <form method="get" asp-action="Index" class="form-inline">
+                                <div class="input-group input-group-sm" style="width: 250px;">
+                                    <input type="text" name="searchTerm" class="form-control float-right" value="@searchTerm" placeholder="Search by any field">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Machine Number</th>
+                                    <th>Name</th>
+                                    <th>Machine Type</th>
+                                    <th>Model</th>
+                                    <th>Serial Number</th>
+                                    <th>Brand</th>
+                                    <th>Owner</th>
+                                    <th>Remarks</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.MCNO)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.MT.Name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Model)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.SRNO)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.BR.Name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CIDNavigation.CompanyName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Remarks)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.MCID" class="btn btn-sm btn-warning" title="Edit"><i class="fas fa-edit"></i></a>
+                                            <a asp-action="Details" asp-route-id="@item.MCID" class="btn btn-sm btn-info" title="Details"><i class="fas fa-info-circle"></i></a>
+                                            <a asp-action="Delete" asp-route-id="@item.MCID" class="btn btn-sm btn-danger" title="Delete"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                @if (currentPage > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="?searchTerm=@searchTerm&page=@(currentPage - 1)" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo; Previous</span>
+                                        </a>
+                                    </li>
+                                }
+                                @for (int i = startPage; i <= endPage; i++)
+                                {
+                                    <li class="page-item @(currentPage == i ? "active" : "")">
+                                        <a class="page-link" href="?searchTerm=@searchTerm&page=@i">@i</a>
+                                    </li>
+                                }
+                                @if (currentPage < totalPages)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="?searchTerm=@searchTerm&page=@(currentPage + 1)" aria-label="Next">
+                                            <span aria-hidden="true">Next &raquo;</span>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->

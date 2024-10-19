@@ -1,0 +1,13 @@
+﻿@* @using DevExpress.XtraReports.UI
+@using DevExpress.AspNetCore.Reporting
+@model DevExpress.XtraReports.UI.XtraReport
+
+
+<div>
+    @Html.DevExpress().WebDocumentViewer(settings =>
+            {
+                settings.Name = "ReportViewer";
+                settings.Report = ViewBag.Report; // Load the report with the parameter
+            }).GetHtml()
+</div>
+ *@

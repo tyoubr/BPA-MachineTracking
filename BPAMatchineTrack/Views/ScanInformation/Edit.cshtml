@@ -1,0 +1,69 @@
+﻿@model BPAMatchineTrack.Models.TblScanInformation
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>TblScanInformation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Scid" />
+            <div class="form-group">
+                <label asp-for="Scdate" class="control-label"></label>
+                <input asp-for="Scdate" class="form-control" />
+                <span asp-validation-for="Scdate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lid" class="control-label"></label>
+                <input asp-for="Lid" class="form-control" />
+                <span asp-validation-for="Lid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Barcode" class="control-label"></label>
+                <input asp-for="Barcode" class="form-control" />
+                <span asp-validation-for="Barcode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Remarks" class="control-label"></label>
+                <input asp-for="Remarks" class="form-control" />
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Opt1" class="control-label"></label>
+                <input asp-for="Opt1" class="form-control" />
+                <span asp-validation-for="Opt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Opt2" class="control-label"></label>
+                <input asp-for="Opt2" class="form-control" />
+                <span asp-validation-for="Opt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Opt3" class="control-label"></label>
+                <input asp-for="Opt3" class="form-control" />
+                <span asp-validation-for="Opt3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

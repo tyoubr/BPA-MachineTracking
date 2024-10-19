@@ -1,0 +1,95 @@
+﻿@model BPAMatchineTrack.Models.TblCompanyInfo
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Create Company Information</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="~/Home/Index">Home</a></li>
+                    <li class="breadcrumb-item"><a href="~/Company/Index">Company Information</a></li>
+                    <li class="breadcrumb-item active">Create</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Company Information</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form asp-action="Create">
+                        <div class="card-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="CompanyName" class="control-label" style="color: navy; font-weight: bold;">Company Name</label>
+                                <input asp-for="CompanyName" class="form-control" />
+                                <span asp-validation-for="CompanyName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ShortName" class="control-label" style="color: navy; font-weight: bold;">Short Name</label>
+                                <input asp-for="ShortName" class="form-control" />
+                                <span asp-validation-for="ShortName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Address" class="control-label" style="color: navy; font-weight: bold;">Address</label>
+                                <input asp-for="Address" class="form-control" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Phone" class="control-label" style="color: navy; font-weight: bold;">Phone</label>
+                                <input asp-for="Phone" class="form-control" />
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label" style="color: navy; font-weight: bold;">Email</label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Status" class="control-label" style="color: navy; font-weight: bold;">Status</label>
+                                <select asp-for="Status" class="form-control">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                                <span asp-validation-for="Status" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Remarks" class="control-label" style="color: navy; font-weight: bold;">Remarks</label>
+                                <input asp-for="Remarks" class="form-control" />
+                                <span asp-validation-for="Remarks" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

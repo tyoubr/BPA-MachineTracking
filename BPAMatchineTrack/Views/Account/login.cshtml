@@ -1,0 +1,62 @@
+﻿@model BPAMatchineTrack.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Cotton Club";
+    Layout = $"~/Views/Shared/_Login.cshtml";
+}
+
+<div class="container">
+    <div class="login">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 float-start">
+            <div class="login_left">
+                <div class="login_title">
+                    Sign In
+                </div>
+                <div class="login_sub_title">
+                    Welcome back!
+                </div>
+                <div class="logo">
+                    <a asp-controller="Home" asp-action="LandingPage"><img src="~/spin_login-form/images/MHM-logo.png" /></a>
+                </div>
+                <div class="redirct_to_signup">
+                    New with Us? <b><a class="recv_pass" asp-action="Register" asp-controller="Account">Register</a></b>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 float-start">
+            <div class="login_right bg-white">
+                <form asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form_group">
+                        <label asp-for="Email" class="control-label"><i class="fa fa-user" aria-hidden="true"></i> @Html.DisplayNameFor(l => l.Email) </label>
+                        <input asp-for="Email" class="form-control" placeholder="Enter username/email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form_group">
+                        <label asp-for="Password"><i class="fa fa-unlock-alt" aria-hidden="true"></i> @Html.DisplayNameFor(l => l.Password) </label>
+                        <input asp-for="Password" class="form-control" placeholder="Enter Password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+
+                        <a class="recv_pass" asp-action="ForgotPassword" asp-controller="Account">Forgot Password?</a>
+
+                    </div>
+                    <div class="form_group">
+                        <p>
+                            By signing in, I agree to the <a target="_blank" href="/privacy">
+                                Our Privacy
+                                Statement
+                            </a> and <a target="_blank" href="/terms">Terms of Service</a>.
+                        </p>
+                        <button type="submit" class="btn btn-primary signin user">Log in</button>
+                        <label class="checkbox">
+                            <input asp-for="RememberMe">
+                            <span class="check" asp-for="RememberMe">@Html.DisplayNameFor(model => model.RememberMe)</span>
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

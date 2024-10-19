@@ -1,0 +1,110 @@
+﻿@model BPAMatchineTrack.Models.TblFloorInfo
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Floor Information</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Fid" />
+            
+            <div class="form-group">
+                <label asp-for="Cid" class="control-label" style="color: navy;font-weight: bold; ">Company Name</label>
+                <select asp-for="Cid" class="form-control" id="companyDropdown">
+                    <option value="">--Select the Company Name--</option>
+                    @foreach (var item in ViewBag.Cid)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="Cid" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Buid" class="control-label" style="color: navy;font-weight: bold; ">Building Name</label>
+                <select asp-for="Buid" class="form-control" id="buildingDropdown">
+                    <option value="">--Select the Building Name--</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label" style="color: navy;font-weight: bold; ">Floor Name</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label" style="color: navy;font-weight: bold; "></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Remarks" class="control-label" style="color: navy;font-weight: bold; "></label>
+                <input asp-for="Remarks" class="form-control" />
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Status" class="control-label" style="color: navy;font-weight: bold;"></label>
+                <select asp-for="Status" class="form-control">
+                    <option value="Active" selected="@((Model.Status == "Active") ? "selected" : null)">Active</option>
+                    <option value="Inactive" selected="@((Model.Status == "Inactive") ? "selected" : null)">Inactive</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#companyDropdown').change(function () {
+                var companyId = $(this).val();
+                if (companyId) {
+                    $.ajax({
+                        url: '@Url.Action("GetBuildingsByCompany", "Floor")',
+                        type: 'GET',
+                        data: { companyId: companyId },
+                        success: function (data) {
+                            console.log(data); // Debugging: Log the data to console
+                            var buildingDropdown = $('#buildingDropdown');
+                            buildingDropdown.empty();
+                            buildingDropdown.append('<option value="">--Select the Building Name--</option>');
+                            $.each(data, function (index, item) {
+                                buildingDropdown.append('<option value="' + item.buid + '">' + item.name + '</option>');
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error fetching buildings: ", status, error); // Debugging: Log the error to console
+                        }
+                    });
+                } else {
+                    $('#buildingDropdown').empty();
+                    $('#buildingDropdown').append('<option value="">--Select the Building Name--</option>');
+                }
+            });
+        });
+    </script>
+}

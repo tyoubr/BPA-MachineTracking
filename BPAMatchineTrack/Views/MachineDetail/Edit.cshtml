@@ -1,0 +1,161 @@
+﻿@model BPAMatchineTrack.Models.tbl_Machine_Detail
+
+@{
+    ViewData["Title"] = "Edit";
+
+    // Serialize the machine types data for JavaScript
+    var machineTypesJson = ViewBag.MachineTypes != null
+        ? System.Text.Json.JsonSerializer.Serialize(ViewBag.MachineTypes)
+        : "[]"; // Fallback to empty array if MachineTypes is null
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Edit Machine</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                        <li class="breadcrumb-item active">Edit Machine</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Machine Information</h3>
+                        </div>
+                        <form asp-action="Edit">
+                            <div class="card-body">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <input type="hidden" asp-for="MCID" />
+
+                                <!-- Owner Name (CID) -->
+                                <div class="form-group">
+                                    <label asp-for="CID" class="control-label">Owner Name</label>
+                                    <select asp-for="CID" class="form-control select2" id="companyDropdown" style="width: 100%;" asp-items="@(new SelectList(ViewBag.CID, "Value", "Text", Model.CID))">
+                                        <option value="">--Select the Company Name--</option>
+                                    </select>
+                                </div>
+
+
+
+                                <!-- Machine No (MCNO) -->
+                                <div class="form-group">
+                                    <label asp-for="MCNO" class="control-label">Machine No.</label>
+                                    <input asp-for="MCNO" class="form-control" id="MCNO" readonly />
+                                    <span asp-validation-for="MCNO" class="text-danger"></span>
+                                </div>
+
+                                <!-- Machine Type (MTID) -->
+                                <div class="form-group">
+                                    <label asp-for="MTID" class="control-label">Machine Type</label>
+                                    <select asp-for="MTID" class="form-control select2" id="machineTypeDropdown" style="width: 100%;" asp-items="@(new SelectList(ViewBag.MTID, "Value", "Text", Model.MTID))">
+                                        <option value="">--Select the Machine Type--</option>
+                                    </select>
+                                </div>
+
+
+                                <!-- Machine Description -->
+                                <div class="form-group">
+                                    <label asp-for="Name" class="control-label">Machine Description</label>
+                                    <input asp-for="Name" class="form-control" id="machineDescriptionInput" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+
+                                <!-- Brand Name (BRID) -->
+                                <div class="form-group">
+                                    <label asp-for="BRID" class="control-label">Brand Name</label>
+                                    <select asp-for="BRID" class="form-control select2" id="brandDropdown" style="width: 100%;" asp-items="@(new SelectList(ViewBag.BRID, "Value", "Text", Model.BRID))">
+                                        <option value="">--Select the Brand Name--</option>
+                                    </select>
+                                </div>
+
+
+                                <!-- Model No. -->
+                                <div class="form-group">
+                                    <label asp-for="Model" class="control-label">Model No.</label>
+                                    <input asp-for="Model" class="form-control" />
+                                    <span asp-validation-for="Model" class="text-danger"></span>
+                                </div>
+
+                                <!-- Serial No. -->
+                                <div class="form-group">
+                                    <label asp-for="SRNO" class="control-label">Serial No.</label>
+                                    <input asp-for="SRNO" class="form-control" />
+                                    <span asp-validation-for="SRNO" class="text-danger"></span>
+                                </div>
+
+                                <!-- Remarks -->
+                                <div class="form-group">
+                                    <label asp-for="Remarks" class="control-label">Remarks</label>
+                                    <input asp-for="Remarks" class="form-control" />
+                                    <span asp-validation-for="Remarks" class="text-danger"></span>
+                                </div>
+
+                                <!-- Status -->
+                                <div class="form-group">
+                                    <label asp-for="Status" class="control-label" style="color: navy; font-weight: bold;">Status</label>
+                                    <select asp-for="Status" class="form-control" asp-items="@(new SelectList(new List<SelectListItem>
+    {
+        new SelectListItem { Value = "Active", Text = "Active" },
+        new SelectListItem { Value = "Inactive", Text = "Inactive" }
+    }, "Value", "Text", Model.Status))">
+                                    </select>
+                                    <span asp-validation-for="Status" class="text-danger"></span>
+                                </div>
+
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="card-footer">
+                                <input type="submit" value="Update" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Back to List Button -->
+                    <div>
+                        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script>
+        // Parse the machine types JSON data
+        var machineTypes = @Html.Raw(machineTypesJson);
+
+        // Event listener to update Machine No when MTID or CID is selected
+        document.getElementById('machineTypeDropdown').addEventListener('change', updateMachineNo);
+        document.getElementById('companyDropdown').addEventListener('change', updateMachineNo);
+
+        function updateMachineNo() {
+            var cid = document.getElementById('companyDropdown').value;
+            var mtid = document.getElementById('machineTypeDropdown').value;
+
+            if (cid && mtid) {
+                // Make an AJAX call to get the next Machine No
+                $.getJSON('/MachineDetail/GetNextMachineNo', { cid: cid, mtid: mtid }, function (data) {
+                    // Update the MCNO field with the received value
+                    document.getElementById('MCNO').value = data;
+                });
+            }
+        }
+    </script>
+
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

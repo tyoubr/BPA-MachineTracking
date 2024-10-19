@@ -1,0 +1,152 @@
+﻿@model BPAMatchineTrack.Models.TblMcLocation
+
+@{
+    ViewData["Title"] = "Edit";
+    var selectedCid = Model.Cid.ToString();
+    var selectedBuid = Model.Buid.ToString();
+    var selectedFid = Model.Fid.ToString();
+
+    var companyOptions = new List<string> { "<option value=\"\">--Select the Company Name--</option>" };
+    foreach (var item in (SelectList)ViewBag.Cid)
+    {
+        var isSelected = item.Value == selectedCid ? "selected" : "";
+        companyOptions.Add($"<option value=\"{item.Value}\" {isSelected}>{item.Text}</option>");
+    }
+
+    var buildingOptions = new List<string> { "<option value=\"\">--Select the Building Name--</option>" };
+    foreach (var item in (SelectList)ViewBag.Buid)
+    {
+        var isSelected = item.Value == selectedBuid ? "selected" : "";
+        buildingOptions.Add($"<option value=\"{item.Value}\" {isSelected}>{item.Text}</option>");
+    }
+
+    var floorOptions = new List<string> { "<option value=\"\">--Select the Floor Name--</option>" };
+    foreach (var item in (SelectList)ViewBag.Fid)
+    {
+        var isSelected = item.Value == selectedFid ? "selected" : "";
+        floorOptions.Add($"<option value=\"{item.Value}\" {isSelected}>{item.Text}</option>");
+    }
+}
+
+<h1>Edit</h1>
+
+<h4>Machine Location</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Lid" />
+            <div class="form-group">
+                <label asp-for="Cid" class="control-label" style="color: navy; font-weight: bold;">Company Name</label>
+                <select asp-for="Cid" class="form-control" id="companyDropdown">
+                    @Html.Raw(string.Join("", companyOptions))
+                </select>
+                <span asp-validation-for="Cid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Buid" class="control-label" style="color: navy; font-weight: bold;">Building Name</label>
+                <select asp-for="Buid" class="form-control" id="buildingDropdown">
+                    @Html.Raw(string.Join("", buildingOptions))
+                </select>
+                <span asp-validation-for="Buid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fid" class="control-label" style="color: navy; font-weight: bold;">Floor Name</label>
+                <select asp-for="Fid" class="form-control" id="floorDropdown">
+                    @Html.Raw(string.Join("", floorOptions))
+                </select>
+                <span asp-validation-for="Fid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label" style="color: navy; font-weight: bold;">Name</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label" style="color: navy; font-weight: bold;">Status</label>
+                <select asp-for="Status" class="form-control" asp-items="@(new List<SelectListItem> {
+        new SelectListItem { Value = "Active", Text = "Active" },
+        new SelectListItem { Value = "Inactive", Text = "Inactive" }
+    })">
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Remarks" class="control-label" style="color: navy; font-weight: bold;">Remarks</label>
+                <input asp-for="Remarks" class="form-control" />
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#companyDropdown').change(function () {
+                var companyId = $(this).val();
+                if (companyId) {
+                    $.ajax({
+                        url: '@Url.Action("GetBuildingsByCompany", "McLocations")',
+                        type: 'GET',
+                        data: { companyId: companyId },
+                        success: function (data) {
+                            var buildingDropdown = $('#buildingDropdown');
+                            buildingDropdown.empty();
+                            buildingDropdown.append('<option value="">--Select the Building Name--</option>');
+                            $.each(data, function (index, item) {
+                                buildingDropdown.append('<option value="' + item.buid + '">' + item.name + '</option>');
+                            });
+                            $('#floorDropdown').html('<option value="">--Select the Floor Name--</option>'); // Reset floor dropdown
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error fetching buildings: ", status, error);
+                        }
+                    });
+                } else {
+                    $('#buildingDropdown').empty();
+                    $('#buildingDropdown').append('<option value="">--Select the Building Name--</option>');
+                    $('#floorDropdown').html('<option value="">--Select the Floor Name--</option>'); // Reset floor dropdown
+                }
+            });
+
+            $('#buildingDropdown').change(function () {
+                var buildingId = $(this).val();
+                var companyId = $('#companyDropdown').val();
+                if (buildingId) {
+                    $.ajax({
+                        url: '@Url.Action("GetFloorsByCompanyAndBuilding", "McLocations")',
+                        type: 'GET',
+                        data: { companyId: companyId, buildingId: buildingId },
+                        success: function (data) {
+                            var floorDropdown = $('#floorDropdown');
+                            floorDropdown.empty();
+                            floorDropdown.append('<option value="">--Select the Floor Name--</option>');
+                            $.each(data, function (index, item) {
+                                floorDropdown.append('<option value="' + item.fid + '">' + item.name + '</option>');
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error fetching floors: ", status, error);
+                        }
+                    });
+                } else {
+                    $('#floorDropdown').empty();
+                    $('#floorDropdown').append('<option value="">--Select the Floor Name--</option>');
+                }
+            });
+        });
+    </script>
+}

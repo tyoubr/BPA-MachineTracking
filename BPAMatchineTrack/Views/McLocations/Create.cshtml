@@ -1,0 +1,138 @@
+﻿@model BPAMatchineTrack.Models.TblMcLocation
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Machine Location</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Cid" class="control-label" style="color: navy;font-weight: bold;">Company Name</label>
+                <select asp-for="Cid" class="form-control" id="companyDropdown">
+                    <option value="">--Select the Company Name--</option>
+                    @foreach (var item in (SelectList)ViewBag.Cid)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="Cid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Buid" class="control-label" style="color: navy;font-weight: bold;">Building Name</label>
+                <select asp-for="Buid" class="form-control" id="buildingDropdown">
+                    <option value="">--Select the Building Name--</option>
+                </select>
+                <span asp-validation-for="Buid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fid" class="control-label" style="color: navy;font-weight: bold;">Floor Name</label>
+                <select asp-for="Fid" class="form-control" id="floorDropdown">
+                    <option value="">--Select the Floor Name--</option>
+                </select>
+                <span asp-validation-for="Fid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label" style="color: navy;font-weight: bold;">Name</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label" style="color: navy; font-weight: bold;">Status</label>
+                <select asp-for="Status" class="form-control">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Remarks" class="control-label" style="color: navy;font-weight: bold;">Remarks</label>
+                <input asp-for="Remarks" class="form-control" />
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+ 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#companyDropdown').change(function () {
+                var companyId = $(this).val();
+                if (companyId) {
+                    $.ajax({
+                        url: '@Url.Action("GetBuildingsByCompany", "McLocations")',
+                        type: 'GET',
+                        data: { companyId: companyId },
+                        success: function (data) {
+                            console.log('Buildings Data:', data); // Debugging: Log the data to console
+                            var buildingDropdown = $('#buildingDropdown');
+                            buildingDropdown.empty();
+                            buildingDropdown.append('<option value="">--Select the Building Name--</option>');
+                            $.each(data, function (index, item) {
+                                buildingDropdown.append('<option value="' + item.buid + '">' + item.name + '</option>');
+                            });
+                            $('#floorDropdown').html('<option value="">--Select the Floor Name--</option>'); // Reset floor dropdown
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error fetching buildings: ", status, error); // Debugging: Log the error to console
+                        }
+                    });
+                } else {
+                    $('#buildingDropdown').empty();
+                    $('#buildingDropdown').append('<option value="">--Select the Building Name--</option>');
+                    $('#floorDropdown').html('<option value="">--Select the Floor Name--</option>'); // Reset floor dropdown
+                }
+            });
+
+            $('#buildingDropdown').change(function () {
+                var buildingId = $(this).val();
+                var companyId = $('#companyDropdown').val(); // Get selected company ID
+                if (buildingId) {
+                    $.ajax({
+                        url: '@Url.Action("GetFloorsByCompanyAndBuilding", "McLocations")',
+                        type: 'GET',
+                        data: { companyId: companyId, buildingId: buildingId },
+                        success: function (data) {
+                            console.log('Floors Data:', data); // Debugging: Log the data to console
+                            var floorDropdown = $('#floorDropdown');
+                            floorDropdown.empty();
+                            floorDropdown.append('<option value="">--Select the Floor Name--</option>');
+                            $.each(data, function (index, item) {
+                                floorDropdown.append('<option value="' + item.fid + '">' + item.name + '</option>');
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error fetching floors: ", status, error); // Debugging: Log the error to console
+                        }
+                    });
+                } else {
+                    $('#floorDropdown').empty();
+                    $('#floorDropdown').append('<option value="">--Select the Floor Name--</option>');
+                }
+            });
+        });
+    </script>
+
+
+
+
+}

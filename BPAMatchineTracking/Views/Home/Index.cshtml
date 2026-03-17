@@ -98,6 +98,12 @@
         .dashboard-container {
             padding: 5px;
         }
+
+        .dashboard-table tfoot td {
+            background-color: #222;
+            color: #00ffcc;
+            font-weight: bold;
+        }
     }
 </style>
 
@@ -108,6 +114,17 @@
     <div class="dashboard-header">
         Sewing Machine Dashboard
     </div>
+
+    @{
+        var totalOwnRunning = Model.Sum(x => x.OwnRunning);
+        var totalRentalRunning = Model.Sum(x => x.RentalRunning);
+        var totalOwnIdle = Model.Sum(x => x.OwnIdle);
+        var totalRentalIdle = Model.Sum(x => x.RentalIdle);
+        var totalOwnUM = Model.Sum(x => x.OwnUnderMaintenance);
+        var totalRentalUM = Model.Sum(x => x.RentalUnderMaintenance);
+        var totalDamaged = Model.Sum(x => x.Damaged);
+        var totalMCQty = Model.Sum(x => x.MCQty);
+    }
 
     <table class="dashboard-table">
         <thead>
@@ -139,6 +156,19 @@
                 </tr>
             }
         </tbody>
+        <tfoot>
+            <tr style="background-color:#222; font-weight:bold;">
+                <td>Total</td>
+                <td>@totalOwnRunning</td>
+                <td>@totalRentalRunning</td>
+                <td>@totalOwnIdle</td>
+                <td>@totalRentalIdle</td>
+                <td>@totalOwnUM</td>
+                <td>@totalRentalUM</td>
+                <td>@totalDamaged</td>
+                <td>@totalMCQty</td>
+            </tr>
+        </tfoot>
     </table>
 </div>
 

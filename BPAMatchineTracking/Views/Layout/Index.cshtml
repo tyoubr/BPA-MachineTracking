@@ -1,0 +1,331 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IPagedList<dynamic>
+
+@{
+    ViewData["Title"] = "Layouts";
+}
+
+<h2>Layout List</h2>
+
+<!-- Search Bar, Create Button, and QR Scanner Button -->
+<div class="d-flex justify-content-between mb-3 align-items-center">
+    <a href="@Url.Action("Create")" class="btn btn-primary">Create New Layout</a>
+    <div class="d-flex align-items-center">
+        <input type="text" id="searchInput" class="form-control search-box" placeholder="Search..." />
+        <button id="scanQRButton" class="btn btn-success ml-2">Scan</button>
+    </div>
+</div>
+
+<!-- Table to Display Data -->
+<table id="dataTable" class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Sl. NO.</th>
+            <th>Date</th>
+            <th>MCID</th>
+            <th>Serial No.</th>
+            <th>Machine Type</th>
+            <th>LID</th>
+            <th>Location Name</th>
+            <th>Location Details</th>
+            <th>Other Company</th>
+            <th>Status</th>
+            <th>Active Status</th>
+            <th>ACTIONS</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SLNO</td>
+                <td>@item.DATE?.ToString("yyyy-MM-dd")</td>
+                <td>@item.MCID</td>
+                <td>@item.SRNO</td>
+                <td>@item.MachineTypeName</td>
+                <td>@item.LID</td>
+                <td>@item.LocationName</td>
+                <td>@item.LOCATION_DETAILS</td>
+                <td>@item.OC_NAME</td>
+                <td>@item.STATUS</td>
+                <td>@item.MachineStatus</td>
+                <td>
+                    <a href="javascript:void(0);" class="btn btn-warning btn-sm edit-btn"
+                       data-id="@item.SLNO" data-machine-status="@item.MachineStatus">Edit</a>
+
+                    <a asp-action="Details" asp-route-id="@item.SLNO" class="btn btn-info btn-sm">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+<!-- Pagination -->
+<div class="pagination-container">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchTerm = ViewContext.HttpContext.Request.Query["searchTerm"] }))
+</div>
+
+<!-- QR Code Scanner Modal -->
+<!-- QR Code Scanner Modal -->
+<!-- QR Code Scanner Modal -->
+<div class="modal fade" id="qrScannerModal" tabindex="-1" aria-labelledby="qrScannerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <!-- QR code scanner container -->
+                <div id="qr-reader" style="width: 30%; height:60%; margin: 0;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Styling -->
+<style>
+    .modal-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        height: 100vh; /* Full screen height */
+        width: 100vw; /* Full screen width */
+        background: transparent !important;
+        overflow: hidden; /* Prevents scrolling */
+    }
+
+    #qr-reader {
+        width: 100vw; /* Full width */
+        height: 100vh; /* Full height */
+        object-fit: cover; /* Ensures it fills the space */
+        background: none !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .modal-dialog {
+        max-width: 100%;
+        height: 100%;
+        margin: 0;
+        background: none !important;
+    }
+
+    .modal-content {
+        background: none !important;
+        border: none;
+        box-shadow: none;
+        height: 100vh; /* Ensures it takes full screen */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+</style>
+
+
+
+
+@section Scripts {
+    <!-- Load jQuery first -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Then Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- HTML5 QR Code Scanner with FALLBACKS -->
+    <script>
+        function loadHtml5QrCode() {
+            return new Promise((resolve, reject) => {
+                // Try primary CDN first
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/dist/html5-qrcode.min.js';
+                script.onload = () => resolve();
+                script.onerror = () => {
+                    // Fallback to secondary CDN
+                    const fallback = document.createElement('script');
+                    fallback.src = 'https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js';
+                    fallback.onload = () => resolve();
+                    fallback.onerror = () => reject(new Error('Failed to load QR scanner library'));
+                    document.head.appendChild(fallback);
+                };
+                document.head.appendChild(script);
+            });
+        }
+
+        // Initialize everything after libraries load
+        loadHtml5QrCode().then(() => {
+            if (typeof Html5Qrcode === 'undefined') {
+                throw new Error('HTML5 QR Code Scanner library not loaded');
+            }
+
+            // Elements
+            const searchInput = document.getElementById("searchInput");
+            const scanQRButton = document.getElementById("scanQRButton");
+            const qrScannerModal = new bootstrap.Modal(document.getElementById('qrScannerModal'));
+
+            // Scanner instance
+            let html5QrcodeScanner = null;
+
+            // scanQRButton.addEventListener("click", async () => {
+            //     try {
+            //         qrScannerModal.show();
+            //         await startQRScanner();
+            //     } catch (error) {
+            //         console.error("Scanner error:", error);
+            //         alert("Scanner error: " + error.message);
+            //         qrScannerModal.hide();
+            //     }
+            // });
+            scanQRButton.addEventListener("click", async () => {
+                try {
+                    await stopQRScanner(); // Stop any existing scanner
+                    const qrReader = document.getElementById("qr-reader");
+                    if (qrReader) {
+                        qrReader.innerHTML = ""; // Clear old scanner DOM
+                    }
+                    qrScannerModal.show();
+                    setTimeout(() => {
+                        startQRScanner().catch(err => {
+                            console.error("Failed to start scanner:", err);
+                            alert("Error starting scanner: " + err.message);
+                            qrScannerModal.hide();
+                        });
+                    }, 500); // Let modal render
+                } catch (error) {
+                    console.error("Scanner error:", error);
+                    alert("Scanner error: " + error.message);
+                    qrScannerModal.hide();
+                }
+            });
+
+
+
+            async function startQRScanner() {
+                try {
+                    // Clean up previous scanner
+                    await stopQRScanner();
+                    await new Promise(resolve => setTimeout(resolve, 200));
+
+                    const cameras = await Html5Qrcode.getCameras();
+                    if (cameras.length === 0) {
+                        throw new Error("No cameras found");
+                    }
+
+                    // Mobile-friendly camera selection
+                    const backCamera = cameras.find(cam =>
+                        /back|rear|environment/gi.test(cam.label)) || cameras[0];
+
+                    html5QrcodeScanner = new Html5Qrcode("qr-reader");
+
+                    await html5QrcodeScanner.start(
+                        backCamera.id,
+                        {
+                            fps: 10,
+                            qrbox: 500,
+                            aspectRatio: 1.0,
+                            disableFlip: true,
+                            facingMode: "environment" // Force back camera
+                        },
+                        (decodedText) => {
+                            handleScanSuccess(decodedText);
+                        },
+                        (error) => {
+                            if (!error.includes("NotFoundException")) {
+                                console.warn("Scan error:", error);
+                            }
+                        }
+                    );
+                } catch (error) {
+                    await stopQRScanner();
+                    throw error;
+                }
+            }
+
+            // async function stopQRScanner() {
+            //     try {
+            //         if (html5QrcodeScanner?.isRunning()) {
+            //             await html5QrcodeScanner.stop();
+            //         }
+            //     } catch (error) {
+            //         console.warn("Stop error:", error);
+            //     } finally {
+            //         html5QrcodeScanner = null;
+            //         const qrReader = document.getElementById("qr-reader");
+            //         if (qrReader) qrReader.innerHTML = '';
+            //     }
+            // }
+            async function stopQRScanner() {
+                try {
+                    if (html5QrcodeScanner) {
+                        const isRunning = html5QrcodeScanner.getState() === Html5QrcodeScannerState.SCANNING;
+                        if (isRunning) {
+                            await html5QrcodeScanner.stop();
+                        }
+                        html5QrcodeScanner.clear();
+                        html5QrcodeScanner = null;
+                    }
+                } catch (error) {
+                    console.warn("Stop error:", error);
+                } finally {
+                    const qrReader = document.getElementById("qr-reader");
+                    if (qrReader) {
+                        qrReader.innerHTML = ''; // Cleanup UI
+                    }
+                }
+            }
+
+
+            async function handleScanSuccess(decodedText) {
+                await stopQRScanner();
+                searchInput.value = decodedText;
+                searchInput.dispatchEvent(new Event('keyup'));
+                qrScannerModal.hide();
+            }
+
+            // Cleanup when modal closes
+            document.getElementById('qrScannerModal').addEventListener('hidden.bs.modal', stopQRScanner);
+
+            // Existing functionality
+            searchInput.addEventListener("keyup", function () {
+                const searchTerm = searchInput.value.trim();
+                fetch(`@Url.Action("Index")?searchTerm=${encodeURIComponent(searchTerm)}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(data, "text/html");
+                        document.getElementById("tableBody").innerHTML =
+                            doc.querySelector("#tableBody").innerHTML;
+                        document.querySelector(".pagination-container").innerHTML =
+                            doc.querySelector(".pagination-container").innerHTML;
+                        attachEditButtonListeners();
+                    })
+                    .catch(console.error);
+            });
+
+            function attachEditButtonListeners() {
+                document.querySelectorAll('.edit-btn').forEach(btn => {
+                    btn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const id = this.dataset.id;
+                        const status = this.dataset.machineStatus.trim();
+                        if (status === 'Inactive') {
+                            alert('First Activate the Machine and then Move!');
+                        } else {
+                            window.location.href = `/Layout/Edit/${id}`;
+                        }
+                    });
+                });
+            }
+
+            // Initialize
+            attachEditButtonListeners();
+
+        }).catch(error => {
+            console.error("Critical error:", error);
+            alert("Failed to load scanner library. Please refresh the page.");
+        });
+    </script>
+}

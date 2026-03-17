@@ -1,0 +1,43 @@
+﻿@using BPAMatchineTrack.Models.ViewModel;
+@model List<UserRoleViewModel>
+
+<h3>User Role Management</h3>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Current Role</th>
+            <th>Change Role</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <form asp-action="UpdateRole" method="post">
+                <td>@user.Email</td>
+                <td>@user.CurrentRole</td>
+
+                <td>
+                    <input type="hidden" name="UserId" value="@user.UserId" />
+
+                    <select name="SelectedRole" class="form-select">
+                        @foreach (var role in user.Roles)
+                        {
+                            <option value="@role">@role</option>
+                        }
+                    </select>
+                </td>
+
+                <td>
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        Update
+                    </button>
+                </td>
+                </form>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,150 @@
+﻿@model List<BPAMatchineTrack.Models.DashboardItem>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+    }
+
+    .bg-image {
+        background-image: url('/images/how-to-use-a-sewing-machine.webp');
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .dashboard-container {
+        position: relative;
+        z-index: 2;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 90%;
+        margin: auto;
+        margin-top: 5%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow-x: auto; /* Enable horizontal scrolling if needed */
+    }
+
+    .dashboard-header {
+        text-align: center;
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .dashboard-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .dashboard-table th,
+        .dashboard-table td {
+            border: 1px solid white;
+            padding: 10px;
+            font-size: 16px; /* Reduced font size for smaller screens */
+            text-align: center;
+        }
+
+        .dashboard-table th {
+            background-color: #333;
+            color: white;
+        }
+
+        .dashboard-table tr:nth-child(even) {
+            background-color: #444;
+        }
+
+    /* Responsive Design */
+    @@media screen and (max-width: 768px) {
+        .dashboard-header {
+            font-size: 18px;
+        }
+
+        .dashboard-table th,
+        .dashboard-table td {
+            font-size: 14px;
+        }
+
+        .dashboard-container {
+            padding: 10px;
+            margin-top: 10%;
+        }
+    }
+
+    @@media screen and (max-width: 480px) {
+        .dashboard-header {
+            font-size: 16px;
+        }
+
+        .dashboard-table th,
+        .dashboard-table td {
+            font-size: 12px;
+            padding: 8px;
+        }
+
+        .dashboard-container {
+            padding: 5px;
+        }
+    }
+</style>
+
+
+<div class="bg-image"></div>
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        Sewing Machine Dashboard
+    </div>
+
+    <table class="dashboard-table">
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>Own Running</th>
+                <th>Rental Running</th>
+                <th>Own Idle</th>
+                <th>Rental Idle</th>
+                <th>Own U/M</th>
+                <th>Rental U/M</th>
+                <th>Damaged</th>
+                <th>Total MC Qty</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Company_Name</td>
+                    <td>@item.OwnRunning</td>
+                    <td>@item.RentalRunning</td>
+                    <td>@item.OwnIdle</td>
+                    <td>@item.RentalIdle</td>
+                    <td>@item.OwnUnderMaintenance</td>
+                    <td>@item.RentalUnderMaintenance</td>
+                    <td>@item.Damaged</td>
+                    <td>@item.MCQty</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Reload the page every 1 minute (60,000 milliseconds)
+    setInterval(function () {
+        location.reload();
+    }, 60000);
+</script>

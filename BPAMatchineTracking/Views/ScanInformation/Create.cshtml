@@ -1,0 +1,349 @@
+﻿@model BPAMatchineTrack.Models.TblScanInformation
+
+@{
+    ViewData["Title"] = "Scan";
+    Layout = "_Layout"; // Assuming you're using the default _Layout.cshtml for AdminLTE
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Scan</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Scan Details</h3>
+                        </div>
+                        <form id="scanForm" asp-action="Create" method="post">
+                            <input type="hidden" id="ScannedData" name="scannedDataJson" />
+                            <div class="card-body">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <style>
+                                    .centered-video {
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        height: 100%;
+                                        position: relative;
+                                    }
+
+                                    #preview {
+                                        width: 200px; /* Set your desired width */
+                                        height: 200px; /* Set the same height to make it square */
+                                        object-fit: cover; /* Ensures the video covers the entire element without stretching */
+                                    }
+
+                                    .hidden-input {
+                                        display: none;
+                                    }
+
+                                    .table tbody tr {
+                                        height: 30px; /* Adjust this value as needed */
+                                    }
+
+                                    .table td, .table th {
+                                        padding: 5px; /* Adjust this value as needed */
+                                        font-size: 14px; /* Adjust this value as needed */
+                                    }
+                                </style>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-12 centered-video">
+                                        <video id="preview"></video>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label asp-for="Scdate" class="col-sm-4 col-form-label text-right">Scan Date</label>
+                                    <div class="col-sm-8">
+                                        <input asp-for="Scdate" type="datetime-local" class="form-control" id="Scdate" readonly />
+                                        <span asp-validation-for="Scdate" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label asp-for="Lid" class="col-sm-4 col-form-label text-right">Location ID</label>
+                                    <div class="col-sm-8">
+                                        <input asp-for="Lid" class="form-control" id="lidInput" />
+                                        <span asp-validation-for="Lid" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label asp-for="Details" class="col-sm-4 col-form-label text-right">Location Details</label>
+                                    <div class="col-sm-8">
+                                        <input asp-for="Details" class="form-control" id="locationDetailsInput" readonly />
+                                        <span asp-validation-for="Details" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label asp-for="Status" class="col-sm-4 col-form-label text-right">Status</label>
+                                    <div class="col-sm-8">
+                                        <select asp-for="Status" class="form-control">
+                                            <option value="Running">Running</option>
+                                            <option value="Idle">Idle</option>
+                                            <option value="Under Maintenance">Under Maintenance</option>
+                                        </select>
+                                        <span asp-validation-for="Status" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                               
+
+                                <!-- Hidden barcode input field -->
+                                <div class="form-group row hidden-input">
+                                    <label asp-for="Barcode" class="col-sm-4 col-form-label text-right sr-only">Barcode</label>
+                                    <div class="col-sm-8">
+                                        <input asp-for="Barcode" class="form-control" id="barcodeInput" />
+                                        <span asp-validation-for="Barcode" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div id="duplicateBarcodeAlert" class="alert alert-warning alert-dismissible fade show" role="alert" style="display: none;">
+                                    <strong>Warning!</strong> <span id="duplicateBarcodeMessage"></span>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="card card-secondary">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Scanned Data</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>ID</th>
+                                                        <th>Location</th>
+                                                        <th>Status</th>
+                                                        <th>Barcode</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="scannedDataBody">
+                                                    <!-- Scanned data will be displayed here -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-12 text-center">
+                                        <button type="button" class="btn btn-success" id="finalSaveBtn">Save All Scanned Data</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <!-- Include Toastr CSS and JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <!-- Include Instascan library -->
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+
+    <script>
+        function setCurrentDateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+
+            document.getElementById('Scdate').value = formattedDateTime;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            setCurrentDateTime();
+        });
+
+        let scanner = null;
+        let scannedData = [];
+        let lastScanTime = 0;
+        const scanCooldown = 1000; // 1 second cooldown to debounce scans
+
+        function startCamera(camera) {
+            if (scanner) {
+                scanner.start(camera);
+            } else {
+                console.error('Scanner object not initialized.');
+            }
+        }
+
+        $(document).ready(function () {
+            function startCamera() {
+                scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+
+                scanner.addListener('scan', function (content) {
+                    const now = new Date().getTime();
+                    if (now - lastScanTime > scanCooldown) {
+                        lastScanTime = now;
+                        document.getElementById('barcodeInput').value = content;
+                        checkBarcodeInDatabase(content);
+                    }
+                });
+
+                Instascan.Camera.getCameras().then(function (cameras) {
+                    if (cameras.length > 0) {
+                        // Select the back camera if available
+                        let backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
+                        if (backCamera) {
+                            scanner.start(backCamera);
+                        } else {
+                            // If no back camera is found, start the first available camera
+                            scanner.start(cameras[0]);
+                        }
+                    } else {
+                        console.error('No cameras found.');
+                    }
+                }).catch(function (error) {
+                    console.error('Error accessing camera:', error);
+                });
+            }
+
+            $('#lidInput').change(function () {
+                var lid = $(this).val();
+                $.ajax({
+                    url: '/ScanInformation/GetLocationDetails',
+                    type: 'GET',
+                    data: { lid: lid },
+                    success: function (data) {
+                        if (data) {
+                            $('#locationDetailsInput').val(data);
+                            startCamera(); // Start the camera after LID is filled
+                        } else {
+                            $('#locationDetailsInput').val('Location not found');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error occurred while fetching location details:', error);
+                        $('#locationDetailsInput').val('Error occurred while fetching location details');
+                    }
+                });
+            });
+        });
+//         function checkBarcodeInDatabase(barcode) {
+//     $.ajax({
+//                 url: '@Url.Action("CheckBarcodeExists", "ScanInformation")', // Change "YourController" to the correct controller name
+//         type: 'GET',
+//         data: { barcode: barcode }, // Send the barcode parameter
+//         success: function (data) {
+//             if (data.exists) {
+//                 showDuplicateAlert(barcode);
+//             } else {
+//                 addScannedData(barcode); // Adjust if additional parameters are needed
+//             }
+//         },
+//         error: function (xhr, status, error) {
+//             console.error('Error checking barcode:', error);
+//         }
+//     });
+// }
+
+
+        function checkBarcodeInDatabase(barcode) {
+            const currentDate = document.getElementById('Scdate').value;
+
+            $.ajax({
+                url: '@Url.Action("CheckBarcodeExists", "ScanInformation")',
+                type: 'GET',
+                data: { barcode: barcode, scdate: currentDate },
+                success: function (data) {
+                    if (data.exists) {
+                        showDuplicateAlert(barcode);
+                    } else {
+                        addScannedData(currentDate, barcode);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error checking barcode:', error);
+                }
+            });
+        }
+
+        function addScannedData(currentDate, barcode) {
+            // Check if the barcode already exists in the current session
+            const barcodeExists = scannedData.some(data => data.Barcode === barcode);
+
+            if (barcodeExists) {
+                showDuplicateAlert(barcode);
+            } else {
+                // Add the scanned data to the list
+                scannedData.push({
+                    Scdate: currentDate,
+                    Lid: document.getElementById('lidInput').value,
+                    Details: document.getElementById('locationDetailsInput').value,
+                    Status: document.querySelector('[name="Status"]').value,
+                    Barcode: barcode
+                });
+
+                updateScannedDataTable();
+                toastr.success('Barcode scanned successfully!');
+            }
+        }
+
+        function showDuplicateAlert(barcode) {
+            toastr.warning(`The barcode ${barcode} has already been scanned.`);
+        }
+
+        function updateScannedDataTable() {
+            const scannedDataBody = document.getElementById('scannedDataBody');
+            scannedDataBody.innerHTML = ''; // Clear the table body
+
+            // Reverse the scannedData array to show the latest scanned item at the top
+            const reversedScannedData = [...scannedData].reverse();
+
+            const rows = reversedScannedData.map((data, index) => `
+                        <tr>
+                            <td>${data.Scdate}</td>
+                            <td>${data.Lid}</td>
+                            <td>${data.Details}</td>
+                            <td>${data.Status}</td>
+                            <td>${data.Barcode}</td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="removeScannedData(${index})">Remove</button>
+                            </td>
+                        </tr>
+                    `);
+
+            scannedDataBody.innerHTML = rows.join('');
+            document.getElementById('ScannedData').value = JSON.stringify(scannedData);
+        }
+
+        function removeScannedData(index) {
+            // Reverse the index to match the original order of the scannedData array
+            const reversedIndex = scannedData.length - 1 - index;
+            scannedData.splice(reversedIndex, 1);
+            updateScannedDataTable();
+        }
+
+        document.getElementById('finalSaveBtn').addEventListener('click', function () {
+            document.getElementById('scanForm').submit();
+        });
+    </script>
+}

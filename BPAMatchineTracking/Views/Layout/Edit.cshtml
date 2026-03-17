@@ -1,0 +1,130 @@
+﻿@model BPAMachineTrack.Models.tbl_Layout
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-12">
+            <div class="card shadow-lg p-4 rounded-lg">
+                <div class="card-body">
+                    <h1 class="text-center text-primary mb-4">Edit Machine's Current Location</h1>
+                    <hr />
+
+                    <!-- Success Message -->
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                    }
+
+                    <form asp-action="Edit" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <input type="hidden" asp-for="SLNO" />
+                        <input type="hidden" asp-for="MCID" />
+
+                        <div class="form-group mb-3">
+                            <label asp-for="DATE" class="form-label">Date</label>
+                            <input asp-for="DATE" class="form-control form-control-lg shadow-sm" type="date" required />
+                            <span asp-validation-for="DATE" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="lidDropdown" class="form-label">Location ID/Name:</label>
+                            <select id="lidDropdown" name="LID" class="form-select">
+                                <option value="">-- Select a Location --</option>
+                            </select>
+                            <span asp-validation-for="LID" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="LOCATION_DETAILS" class="form-label">Location Details</label>
+                            <input id="LOCATION_DETAILS" asp-for="LOCATION_DETAILS" class="form-control form-control-lg shadow-sm" readonly />
+                            <span asp-validation-for="LOCATION_DETAILS" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label asp-for="OCID" class="form-label">Company</label>
+                            <select asp-for="OCID" class="form-control form-control-lg shadow-sm" asp-items="ViewBag.Companies">
+                                <option value="">-- Select Company --</option>
+                            </select>
+                            <span asp-validation-for="OCID" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="STATUS" class="form-label">Status</label>
+                            <select asp-for="STATUS" class="form-control form-control-lg shadow-sm" id="statusDropdown">
+                                <option value="">-- Select Status --</option>
+                                <option value="Running">Running</option>
+                                <option value="Idle">Idle</option>
+                                <option value="Under Maintenance">Under Maintenance</option>
+                                <option value="Damaged">Damaged</option>
+                            </select>
+                            <span asp-validation-for="STATUS" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg">Save Changes</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-sm px-4 py-2 rounded-pill shadow-sm">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            const status = '@Model.STATUS' || '';
+            $('#statusDropdown').val(status);
+
+            $.ajax({
+                url: '/Layout/GetAllLocationIds',
+                type: 'GET',
+                success: function (response) {
+                    if (response.success) {
+                        const dropdown = $('#lidDropdown');
+                        dropdown.empty();
+                        dropdown.append('<option value="">-- Select a Location --</option>');
+
+                        response.data.forEach(function (location) {
+                            dropdown.append(`<option value="${location.lid}" ${location.lid === '@Model.LID' ? 'selected' : ''}>${location.lid} - ${location.name}</option>`);
+                        });
+
+                        $('#lidDropdown').select2({
+                            placeholder: "Type to search by Location ID or Name",
+                            allowClear: true,
+                            width: '100%',
+                            minimumInputLength: 1
+                        });
+                    }
+                }
+            });
+
+            $('#lidDropdown').on('change', function () {
+                const lid = $(this).val();
+                if (lid) {
+                    $.ajax({
+                        url: '/Layout/GetLocationDetails',
+                        type: 'GET',
+                        data: { Lid: lid },
+                        success: function (response) {
+                            if (response.success) {
+                                $('#LOCATION_DETAILS').val(`${response.data.companyName} - ${response.data.buildingName}, ${response.data.floorName}`);
+                            }
+                        }
+                    });
+                } else {
+                    $('#LOCATION_DETAILS').val('');
+                }
+            });
+        });
+    </script>
+}

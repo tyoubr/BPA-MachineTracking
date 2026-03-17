@@ -1,0 +1,57 @@
+﻿@model BPAMachineTrack.Models.tbl_Layout
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<style>
+    dl.row dt, dl.row dd {
+        margin-bottom: 5px; /* Reduces space between rows */
+        padding: 2px 0; /* Adjusts padding */
+        line-height: 1.2; /* Reduces the space inside the row */
+    }
+</style>
+
+<div>
+    <h4>tbl_Layout</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DATE)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DATE)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MCID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MCID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LOCATION_DETAILS)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LOCATION_DETAILS)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.STATUS)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.STATUS)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.SLNO" class="btn btn-primary btn-sm">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary btn-sm">Back to List</a>
+</div>

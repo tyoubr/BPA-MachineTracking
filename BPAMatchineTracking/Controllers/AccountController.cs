@@ -53,7 +53,7 @@ namespace BPAMatchineTrack.Controllers
 
         // GET: /Account/Register
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin,Super Admin")]
         public IActionResult Register()
         {
             return View();
@@ -61,8 +61,8 @@ namespace BPAMatchineTrack.Controllers
 
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -296,14 +296,14 @@ namespace BPAMatchineTrack.Controllers
 
         // GET: /Account/ResetPassword
         [HttpGet]
-        [Authorize(Roles = "Super Admin")]
+        [Authorize(Roles = "Admin,Super Admin")]
         public IActionResult ResetPassword()
         {
             return View();
         }
         // POST: /Account/ResetPassword
         [HttpPost]
-        [Authorize(Roles = "Super Admin")]
+        [Authorize(Roles = "Admin,Super Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {

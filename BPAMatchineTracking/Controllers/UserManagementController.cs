@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using BPAMatchineTrack.Models.ViewModel;
 
-[Authorize(Roles = "Super Admin")]
+[Authorize(Roles = "Admin,Super Admin")]
 public class UserManagementController : Controller
 {
     private readonly UserManager<IdentityUser> _userManager;

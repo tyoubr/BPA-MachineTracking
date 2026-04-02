@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Home Page";
+    // var today = DateTime.Now.Date;
 }
 
 <style>
@@ -125,6 +126,21 @@
         var totalDamaged = Model.Sum(x => x.Damaged);
         var totalMCQty = Model.Sum(x => x.MCQty);
     }
+
+ @*    @{
+        var today = DateTime.Now.Date;
+
+        var todayData = Model.Where(x => x..Date == today);
+
+        var totalOwnRunning = todayData.Sum(x => x.OwnRunning);
+        var totalRentalRunning = todayData.Sum(x => x.RentalRunning);
+        var totalOwnIdle = todayData.Sum(x => x.OwnIdle);
+        var totalRentalIdle = todayData.Sum(x => x.RentalIdle);
+        var totalOwnUM = todayData.Sum(x => x.OwnUnderMaintenance);
+        var totalRentalUM = todayData.Sum(x => x.RentalUnderMaintenance);
+        var totalDamaged = todayData.Sum(x => x.Damaged);
+        var totalMCQty = todayData.Sum(x => x.MCQty);
+    } *@
 
     <table class="dashboard-table">
         <thead>

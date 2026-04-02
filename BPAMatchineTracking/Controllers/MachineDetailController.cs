@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BPAMatchineTrack.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using BPAMatchineTrack.Models;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BPAMatchineTrack.Controllers
 {
+    [Authorize]
     public class MachineDetailController : Controller
     {
         private readonly CottonclubContext _context;
@@ -18,6 +21,8 @@ namespace BPAMatchineTrack.Controllers
         }
 
         // GET: MachineDetail
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Index(string searchTerm, int page = 1)
         {
             // Query for all machine details
@@ -51,6 +56,8 @@ namespace BPAMatchineTrack.Controllers
             return View(items);
         }
         // GET: MachineDetail/Details/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -90,6 +97,10 @@ namespace BPAMatchineTrack.Controllers
         //    return View();
         //}
         // Update the Create GET action to initialize the model
+
+        // GET: MachineDetail/Create
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public IActionResult Create()
         {
             // Initialize a new machine detail with default values
@@ -144,6 +155,7 @@ namespace BPAMatchineTrack.Controllers
         //}
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Create([Bind("MCID,CID,MCNO,MTID,Name,BRID,Model,SRNO,Rcv_Date,Capaity,Type,P_System,Remarks,Status")] tbl_Machine_Detail tbl_Machine_Detail)
         {
             if (IsDuplicateSRNO(tbl_Machine_Detail.SRNO))
@@ -167,6 +179,8 @@ namespace BPAMatchineTrack.Controllers
 
 
         // GET: MachineDetail/Edit/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -236,6 +250,7 @@ namespace BPAMatchineTrack.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("MCID,CID,MCNO,MTID,Name,BRID,Model,SRNO,Rcv_Date,Capaity,Type,P_System,Remarks,Status")] tbl_Machine_Detail tbl_Machine_Detail)
         {
             if (id != tbl_Machine_Detail.MCID)
@@ -278,6 +293,8 @@ namespace BPAMatchineTrack.Controllers
 
 
         // GET: MachineDetail/Delete/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -301,6 +318,8 @@ namespace BPAMatchineTrack.Controllers
         // POST: MachineDetail/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tbl_Machine_Detail = await _context.tbl_Machine_Details.FindAsync(id);
@@ -317,7 +336,9 @@ namespace BPAMatchineTrack.Controllers
         {
             return _context.tbl_Machine_Details.Any(e => e.MCID == id);
         }
+
         [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> GetNextMCNO(int cid, int mtid)
         {
             // Find the max MCNO for the given CID and MTID, converting it to an integer
@@ -338,7 +359,9 @@ namespace BPAMatchineTrack.Controllers
 
             return Json(new { nextMcno });
         }
+
         [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public JsonResult GetNextMachineNo(int cid, int mtid)
         {
             // Find the max MCNO for the given CID and MTID, assuming it's stored as varchar

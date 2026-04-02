@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BPAMatchineTrack.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BPAMatchineTrack.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BPAMatchineTrack.Controllers
 {
+    [Authorize]
+
     public class Other_CompanyController : Controller
     {
         private readonly CottonclubContext _context;
@@ -19,12 +22,16 @@ namespace BPAMatchineTrack.Controllers
         }
 
         // GET: Other_Company
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.tbl_Other_Companies.ToListAsync());
         }
 
         // GET: Other_Company/Details/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,6 +50,8 @@ namespace BPAMatchineTrack.Controllers
         }
 
         // GET: Other_Company/Create
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public IActionResult Create()
         {
             return View();
@@ -53,6 +62,8 @@ namespace BPAMatchineTrack.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
+
         public async Task<IActionResult> Create([Bind("OCID,OC_NAME,ADDRESS,CONTRACT_PERSON,REMARKS")] tbl_Other_Company tbl_Other_Company)
         {
             if (ModelState.IsValid)
@@ -65,6 +76,8 @@ namespace BPAMatchineTrack.Controllers
         }
 
         // GET: Other_Company/Edit/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,6 +98,8 @@ namespace BPAMatchineTrack.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
+
         public async Task<IActionResult> Edit(int id, [Bind("OCID,OC_NAME,ADDRESS,CONTRACT_PERSON,REMARKS")] tbl_Other_Company tbl_Other_Company)
         {
             if (id != tbl_Other_Company.OCID)
@@ -116,6 +131,8 @@ namespace BPAMatchineTrack.Controllers
         }
 
         // GET: Other_Company/Delete/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,6 +153,8 @@ namespace BPAMatchineTrack.Controllers
         // POST: Other_Company/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tbl_Other_Company = await _context.tbl_Other_Companies.FindAsync(id);

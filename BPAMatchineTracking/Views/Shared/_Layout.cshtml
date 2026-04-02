@@ -92,27 +92,21 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "Other_Company")" class="nav-link">
-                                <i class="nav-icon fas fa-info-circle"></i>
-                                <p>
-                                    Other Company Info..
-                                </p>
-                            </a>
-                        </li>
-                        @if (User.Identity.IsAuthenticated)
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Super Admin")))
                         {
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index", "MachineDetail")" class="nav-link">
-                                        <i class="nav-icon fas fa-info-circle"></i>
-                                        <p>
-                                            Machine Information
-                                        </p>
-                                    </a>
-                                </li>
-                            }
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Other_Company")" class="nav-link">
+                                    <i class="nav-icon fas fa-info-circle"></i>
+                                    <p>Other Company Info..</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "MachineDetail")" class="nav-link">
+                                    <i class="nav-icon fas fa-info-circle"></i>
+                                    <p>Machine Information</p>
+                                </a>
+                            </li>
                         }
                         <li class="nav-item">
                             <a href="@Url.Action("Index", "ScanInformation")" class="nav-link">
@@ -281,9 +275,9 @@
                             </ul>
                         </li>
 
-                        @if (User.Identity.IsAuthenticated)
+                        @* @if (User.Identity.IsAuthenticated)
                         {
-                            @if (User.IsInRole("Super Admin"))
+                            @if (User.IsInRole("Admin","Super Admin"))
                             {
                                 <li class="nav-item has-treeview">
                                     <a href="#" class="nav-link">
@@ -315,6 +309,42 @@
                                     </ul>
                                 </li>
                             }
+                        } *@
+                        @if (User.Identity.IsAuthenticated &&
+                                                (User.IsInRole("Admin") || User.IsInRole("Super Admin")))
+                        {
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-cogs"></i>
+                                    <p>
+                                        Settings
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="~/Account/Register" class="nav-link">
+                                            <i class="nav-icon fas fa-user-plus"></i>
+                                            <p>User Registration</p>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="~/Account/ResetPassword" class="nav-link">
+                                            <i class="nav-icon fas fa-key"></i>
+                                            <p>Reset User Password</p>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="~/UserManagement/Index" class="nav-link">
+                                            <i class="nav-icon fas fa-user-shield"></i>
+                                            <p>Assign User Role</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                         }
                     </ul>
                 </nav>
@@ -353,17 +383,32 @@
     <script>
         @if (TempData["SuccessMessage"] != null)
         {
-                                <text>
-                                    toastr.success('@TempData["SuccessMessage"]');
-                                </text>
+                <text>
+                    toastr.success(@Html.Raw(Json.Serialize(TempData["SuccessMessage"])));
+                </text>
         }
         @if (TempData["ErrorMessage"] != null)
         {
-                                <text>
-                                    toastr.error('@TempData["ErrorMessage"]');
-                                </text>
+                <text>
+                    toastr.error(@Html.Raw(Json.Serialize(TempData["ErrorMessage"])));
+                </text>
         }
     </script>
+
+   @*  <script>
+        @if (TempData["SuccessMessage"] != null)
+        {
+                                        <text>
+                                            toastr.success('@TempData["SuccessMessage"]');
+                                        </text>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+                                        <text>
+                                            toastr.error('@TempData["ErrorMessage"]');
+                                        </text>
+        }
+    </script> *@
     <!-- Auto-logout script -->
     @* <script>
         let inactivityTime = 300000; // 5 minutes in milliseconds

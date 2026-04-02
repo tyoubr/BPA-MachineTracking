@@ -81,6 +81,7 @@ namespace BPAMatchineTrack.Controllers
                         join mtype in _context.TblMachineTypeInfo on machine.MTID equals mtype.Mtid
                         join otherCompany in _context.tbl_Other_Companies on layout.OCID equals otherCompany.OCID into companyJoin
                         from otherCompany in companyJoin.DefaultIfEmpty()
+                        where machine.Status == "Active"   // 👈 USE MACHINE STATUS HERE
                         select new MachineLocationViewModel
                         {
                             SLNO = layout.SLNO,
@@ -104,6 +105,7 @@ namespace BPAMatchineTrack.Controllers
                     (x.LOCATION_DETAILS != null && x.LOCATION_DETAILS.Contains(searchTerm)) ||
                     (x.OC_NAME != null && x.OC_NAME.Contains(searchTerm)) ||
                     (x.STATUS != null && x.STATUS.Contains(searchTerm)) ||
+                    (x.MachineStatus != null && x.MachineStatus.Contains(searchTerm)) ||
                     (x.SRNO != null && x.SRNO.Contains(searchTerm))
                 );
             }
@@ -117,16 +119,37 @@ namespace BPAMatchineTrack.Controllers
 
 
 
+        //[HttpGet]
+        //public JsonResult GetAllMachineIds()
+        //{
+        //    var machines = _context.tbl_Machine_Details
+        //        .Select(m => new { m.MCID, m.SRNO })
+        //        .ToList();
+
+        //    if (machines == null || !machines.Any())
+        //    {
+        //        return Json(new { success = false, message = "No machines found." });
+        //    }
+
+        //    return Json(new { success = true, data = machines });
+        //}
+
         [HttpGet]
         public JsonResult GetAllMachineIds()
         {
             var machines = _context.tbl_Machine_Details
-                .Select(m => new { m.MCID, m.SRNO })
+                .Where(m => !_context.tbl_Layouts
+                    .Any(l => l.MCID == m.MCID))
+                .Select(m => new
+                {
+                    m.MCID,
+                    m.SRNO
+                })
                 .ToList();
 
             if (machines == null || !machines.Any())
             {
-                return Json(new { success = false, message = "No machines found." });
+                return Json(new { success = false, message = "No available machines found." });
             }
 
             return Json(new { success = true, data = machines });

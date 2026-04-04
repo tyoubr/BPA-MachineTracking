@@ -141,7 +141,10 @@ namespace BPAMatchineTrack.Models
                 entity.Property(e => e.SRNO)
                     .HasMaxLength(50)
                     .IsUnicode(false);
-
+                entity.Property(e => e.IsRental)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("IS_RENTAL");
                 entity.HasOne(d => d.CIDNavigation)
                     .WithMany(p => p.tbl_Machine_Details)
                     .HasForeignKey(d => d.CID);

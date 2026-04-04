@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+
 <style>
     :root {
         --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
@@ -17,7 +18,7 @@
         --input-focus: #6366f1;
         --text-main: #1e293b;
         --text-muted: #64748b;
-        --field-height: 64px; 
+        --field-height: 64px;
     }
 
     body {
@@ -70,10 +71,10 @@
         width: 100%;
     }
 
-    .form-control-modern:focus {
-        border-color: var(--input-focus) !important;
-        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12) !important;
-    }
+        .form-control-modern:focus {
+            border-color: var(--input-focus) !important;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12) !important;
+        }
 
     .readonly-display {
         background-color: #f8fafc !important;
@@ -96,11 +97,11 @@
         gap: 0.8rem;
     }
 
-    .btn-modern:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 15px 25px -5px rgba(67, 56, 202, 0.4);
-        color: white;
-    }
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -5px rgba(67, 56, 202, 0.4);
+            color: white;
+        }
 
     .input-group-icon {
         color: var(--text-muted);
@@ -109,24 +110,26 @@
 
     /* GLOBAL SELECT2 OVERRIDES */
     .select2-container--default .select2-selection--single {
-        height: 64px !important;
+        height: 50px !important;
         border: 1px solid #e2e8f0 !important;
         border-radius: 16px !important;
         display: flex !important;
         align-items: center !important;
     }
+
     .select2-selection__rendered {
         line-height: 64px !important;
         padding-left: 1.5rem !important;
         font-size: 1.15rem !important;
     }
+
     .select2-selection__arrow {
         height: 64px !important;
         top: 0 !important;
     }
 </style>
 
-<div class="page-wrapper">
+@* <div class="page-wrapper">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-6 col-lg-8 col-md-10">
@@ -177,14 +180,14 @@
             </div>
         </div>
     </div>
-</div>
+</div> *@
 
-@section Scripts {
+@* @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> *@
 
-    <script>
+    @* <script>
         $(document).ready(function () {
             // Function to force style because CSS alone is failing
             function forceSelect2Height() {
@@ -208,6 +211,12 @@
             observer.observe(document.body, { childList: true, subtree: true });
 
             const config = { width: '100%', placeholder: "Select..." };
+            // const config = {
+            // width: '100%',
+            // placeholder: "Select...",
+            // dropdownParent: $('.modern-card'), // 👈 FIX for mobile
+            // minimumResultsForSearch: 0          // 👈 always show search box
+        };
 
             $.ajax({
                 url: '/Layout/GetAllMachineIds',
@@ -244,16 +253,107 @@
 
             $('#DATE').val(new Date().toISOString().split('T')[0]);
         });
-    </script>
-}
+    </script> *@
+@*     <script id="fixedScript01">
+        $(document).ready(function () {
 
-@* @model BPAMachineTrack.Models.tbl_Layout
+            // ================= SELECT2 INIT FUNCTION =================
+            function initSelect2(element) {
+                element.select2({
+                    width: '100%',
+                    placeholder: "--Select--",
+                    allowClear: true,
+                    minimumResultsForSearch: 0, // 🔥 always show search
+                    dropdownAutoWidth: true,
+                    closeOnSelect: true,
+                    dropdownParent: $('body') // 🔥 best for clean UI
+                });
+            }
+
+            // ================= MOBILE SEARCH FIX =================
+            $(document).on('select2:open', function () {
+                setTimeout(function () {
+                    document.querySelector('.select2-container--open .select2-search__field')?.focus();
+                }, 0);
+            });
+
+            // ================= MACHINE DROPDOWN =================
+            $.ajax({
+                url: '/Layout/GetAllMachineIds',
+                type: 'GET',
+                success: function (r) {
+                    if (r.success) {
+                        const d = $('#machineDropdown');
+                        d.empty().append('<option></option>');
+
+                        r.data.forEach(m => {
+                            d.append(new Option(`${m.mcid} — ${m.srno}`, m.mcid));
+                        });
+
+                        initSelect2(d); // ✅ apply select2
+                    }
+                },
+                error: function () {
+                    console.log('Error loading machine data');
+                }
+            });
+
+            // ================= LOCATION DROPDOWN =================
+            $.ajax({
+                url: '/Layout/GetAllLocationIds',
+                type: 'GET',
+                success: function (r) {
+                    if (r.success) {
+                        const d = $('#lidDropdown');
+                        d.empty().append('<option></option>');
+
+                        r.data.forEach(l => {
+                            d.append(new Option(`${l.lid} | ${l.name}`, l.lid));
+                        });
+
+                        initSelect2(d); // ✅ apply select2
+                    }
+                },
+                error: function () {
+                    console.log('Error loading location data');
+                }
+            });
+
+            // ================= LOCATION DETAILS =================
+            $('#lidDropdown').on('change', function () {
+                const lid = $(this).val();
+
+                if (lid) {
+                    $.ajax({
+                        url: '/Layout/GetLocationDetails',
+                        type: 'GET',
+                        data: { Lid: lid },
+                        success: function (r) {
+                            if (r.success) {
+                                $('#LOCATION_DETAILS').val(`${r.data.companyName} » ${r.data.floorName}`);
+                            }
+                        }
+                    });
+                } else {
+                    $('#LOCATION_DETAILS').val('');
+                }
+            });
+
+            // ================= DEFAULT DATE =================
+            $('#DATE').val(new Date().toISOString().split('T')[0]);
+
+        });
+    </script>
+
+} *@
+
+@* @model BPAMachineTrack.Models.tbl_Layout *@
 
 @{
     ViewData["Title"] = "Create";
 }
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-
+@* <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+ *@
 <!-- Include Select2 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -281,18 +381,24 @@
 
                         <!-- MACHINE ID Dropdown -->
                         <div class="form-group mb-3">
-                            <label for="machineDropdown" class="form-label">Machine ID:</label>
-                            <select id="machineDropdown" name="MCID" class="form-select">
+                            <label for="machineDropdown" class="form-label">Select Machine</label>
+                            @* <select id="machineDropdown" name="MCID" class="form-select">
                                 <option value="">-- Select a Machine --</option>
+                            </select> *@
+                            <select id="machineDropdown" name="MCID" class="form-select">
+                                <option></option>
                             </select>
                             <span asp-validation-for="MCID" class="text-danger"></span>
                         </div>
 
                         <!-- LID Dropdown -->
                         <div class="form-group mb-3">
-                            <label for="lidDropdown" class="form-label">Location ID/Name:</label>
-                            <select id="lidDropdown" name="LID" class="form-select">
+                            <label for="lidDropdown" class="form-label">Select Location</label>
+                            @* <select id="lidDropdown" name="LID" class="form-select">
                                 <option value="">-- Select a Location --</option>
+                            </select> *@
+                            <select id="lidDropdown" name="LID" class="form-select">
+                                <option></option>
                             </select>
                             <span asp-validation-for="LID" class="text-danger"></span>
                         </div>
@@ -308,7 +414,7 @@
                         <div class="form-group mb-4">
                             <label asp-for="STATUS" class="form-label">Status</label>
                             <select asp-for="STATUS" class="form-control form-control-lg shadow-sm">
-                                <option value="">-- Select Status --</option>
+                                <option value="">Select Machine Status</option>
                                 <option value="Running">Running</option>
                                 <option value="Idle">Idle</option>
                                 <option value="Under maintenance">Under maintenance</option>
@@ -347,7 +453,8 @@
                 success: function (response) {
                     if (response.success) {
                         const dropdown = $('#machineDropdown');
-                        dropdown.empty().append('<option value="">-- Select a Machine --</option>');
+                        // dropdown.empty().append('<option value="">-- Select a Machine --</option>');
+                        dropdown.empty().append('<option></option>');
                         response.data.forEach(machine => {
                             dropdown.append(`<option value="${machine.mcid}">${machine.mcid} - ${machine.srno}</option>`);
                         });
@@ -372,7 +479,8 @@
                 success: function (response) {
                     if (response.success) {
                         const dropdown = $('#lidDropdown');
-                        dropdown.empty().append('<option value="">-- Select a Location --</option>');
+                        // dropdown.empty().append('<option value="">-- Select a Location --</option>');
+                        dropdown.empty().append('<option></option>');
                         response.data.forEach(location => {
                             dropdown.append(`<option value="${location.lid}">${location.lid} - ${location.name}</option>`);
                         });
@@ -422,4 +530,3 @@
     </script>
 
 }
- *@

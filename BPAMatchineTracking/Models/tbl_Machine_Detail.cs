@@ -65,6 +65,7 @@ public partial class tbl_Machine_Detail
     public string? Remarks { get; set; }
 
     public string? Status { get; set; }
+    public string? IsRental { get; set; }
 
     public virtual TblBrandInformation? BR { get; set; }
 

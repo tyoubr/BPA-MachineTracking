@@ -17594,7 +17594,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DemoModels\" />
     <Folder Include="node_modules\%40babel\runtime\" />
     <Folder Include="node_modules\%40devexpress\analytics-core\" />
     <Folder Include="node_modules\%40devexpress\utils\" />

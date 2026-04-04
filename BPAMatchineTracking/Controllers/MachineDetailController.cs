@@ -108,7 +108,9 @@ namespace BPAMatchineTrack.Controllers
             {
                 Status = "Active", // Set default status
                 Type = "Clutch",   // Set default type
-                P_System = "Yes"   // Set default pneumatic system
+                P_System = "Yes",   // Set default pneumatic system
+                //IsRental = "Yes"
+                
             };
 
             ViewData["BRID"] = new SelectList(_context.TblBrandInformation, "Brid", "Name");

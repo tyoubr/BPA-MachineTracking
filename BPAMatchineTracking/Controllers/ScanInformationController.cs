@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BPAMatchineTrack.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BPAMatchineTrack.Models;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BPAMatchineTrack.Controllers
 {
+    [Authorize]
     public class ScanInformationController : Controller
     {
         private readonly CottonclubContext _context;
@@ -20,6 +22,8 @@ namespace BPAMatchineTrack.Controllers
         }
 
         // GET: ScanInformation
+        [HttpGet]
+        [Authorize(Roles = "User,Admin,Super Admin")]
         public async Task<IActionResult> Index(string searchTerm, int page = 1, int pageSize = 10)
         {
             // Retrieve all scan information
@@ -99,6 +103,7 @@ namespace BPAMatchineTrack.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "User,Admin,Super Admin")]
         public async Task<IActionResult> Create(string scannedDataJson)
         {
             if (string.IsNullOrEmpty(scannedDataJson))

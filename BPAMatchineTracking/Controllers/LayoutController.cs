@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BPAMachineTrack.Models;
+using BPAMatchineTrack.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BPAMachineTrack.Models;
-using X.PagedList.Mvc.Core;
-using X.PagedList.Extensions;
-using BPAMatchineTrack.Models;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using X.PagedList;
+using X.PagedList.Extensions;
+using X.PagedList.Mvc.Core;
 
 namespace BPAMatchineTrack.Controllers
 {
+    [Authorize(Roles = "Admin,Super Admin,User")]
     public class LayoutController : Controller
     {
         private readonly CottonclubContext _context;
@@ -68,7 +70,8 @@ namespace BPAMatchineTrack.Controllers
         //        ? PartialView("_TablePartial", pagedData)
         //        : View(pagedData);
         //}
-
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public IActionResult Index(string searchTerm, int? page)
         {
             int pageNumber = page ?? 1;

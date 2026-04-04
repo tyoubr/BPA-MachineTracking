@@ -1,15 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using BPAMatchineTrack.Models;
+﻿using BPAMatchineTrack.Models;
 using BPAMatchineTrack.ViewModels; // Ensure this line is present
+using DevExpress.DataAccess.Sql;
+using DevExpress.XtraReports.UI;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using DevExpress.DataAccess.Sql;
-using DevExpress.XtraReports.UI;
 
 namespace BPAMatchineTrack.Controllers
 {
+    [Authorize]
     public class RentMCRequisitionController : Controller
     {
         private readonly CottonclubContext _context;

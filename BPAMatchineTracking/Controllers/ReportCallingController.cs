@@ -1,11 +1,14 @@
 ﻿using BPAMatchineTrack.Reports;
 using DevExpress.XtraReports.UI;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BPAMatchineTrack.Controllers
 {
+    [Authorize]
     public class ReportCallingController : Controller
     {
+        //[Authorize(Roles = "Admin,Super Admin")]
         public IActionResult Test()
         {
             try

@@ -1,12 +1,14 @@
+using BPAMatchineTrack.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Diagnostics;
-using BPAMatchineTrack.Models;
 
 namespace BPAMatchineTrack.Controllers
 {
+    [Authorize(Roles = "Admin,Super Admin,User")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -18,6 +20,8 @@ namespace BPAMatchineTrack.Controllers
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        [HttpGet]
+        [Authorize(Roles = "User,Admin,Super Admin")]
         public IActionResult Index()
         {
             var dashboardData = GetDashboardData();

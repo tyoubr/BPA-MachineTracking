@@ -71,7 +71,7 @@ namespace BPAMatchineTrack.Controllers
         //        : View(pagedData);
         //}
         [HttpGet]
-        [Authorize(Roles = "Admin,Super Admin")]
+        [Authorize(Roles = "User,Admin,Super Admin")]
         public IActionResult Index(string searchTerm, int? page)
         {
             int pageNumber = page ?? 1;
@@ -138,6 +138,7 @@ namespace BPAMatchineTrack.Controllers
         //}
 
         [HttpGet]
+        [Authorize(Roles = "User,Admin,Super Admin")]
         public JsonResult GetAllMachineIds()
         {
             var machines = _context.tbl_Machine_Details
@@ -159,6 +160,7 @@ namespace BPAMatchineTrack.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User,Admin,Super Admin")]
         public JsonResult GetAllLocationIds()
         {
             var locations = _context.TblMcLocations
@@ -174,6 +176,7 @@ namespace BPAMatchineTrack.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User,Admin,Super Admin")]
         public JsonResult GetLocationDetails(string lid)
         {
             if (string.IsNullOrWhiteSpace(lid) || !int.TryParse(lid, out int locationId))
@@ -210,7 +213,8 @@ namespace BPAMatchineTrack.Controllers
             return Json(new { success = true, data = location });
         }
 
-        // GET: Layout/Details/5
+        [HttpGet]
+        [Authorize(Roles = "User,Admin,Super Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -236,6 +240,7 @@ namespace BPAMatchineTrack.Controllers
 
         // POST: Layout/Create
         [HttpPost]
+        [Authorize(Roles = "User,Admin,Super Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SLNO,DATE,MCID,LID,LOCATION_DETAILS,STATUS")] tbl_Layout tbl_Layout)
         {
@@ -264,6 +269,8 @@ namespace BPAMatchineTrack.Controllers
 
         //    return View(layout);
         //}
+        [HttpGet]
+        [Authorize(Roles = "User,Admin,Super Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -312,7 +319,9 @@ namespace BPAMatchineTrack.Controllers
         //    // Return the view with the model in case of an error or invalid state
         //    return View(layout);
         //}
+
         [HttpPost]
+        [Authorize(Roles = "User,Admin,Super Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, tbl_Layout layout)
         {
@@ -349,6 +358,8 @@ namespace BPAMatchineTrack.Controllers
         }
 
         // GET: Layout/Delete/5
+        [HttpGet]
+        [Authorize(Roles = "User,Admin,Super Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -368,6 +379,7 @@ namespace BPAMatchineTrack.Controllers
 
         // POST: Layout/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "User,Admin,Super Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

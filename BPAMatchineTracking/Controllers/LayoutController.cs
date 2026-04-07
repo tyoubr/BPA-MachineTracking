@@ -1,6 +1,7 @@
 ﻿using BPAMachineTrack.Models;
 using BPAMatchineTrack.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,10 +22,12 @@ namespace BPAMatchineTrack.Controllers
     public class LayoutController : Controller
     {
         private readonly CottonclubContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public LayoutController(CottonclubContext context)
+        public LayoutController(CottonclubContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         //GET: Layout
@@ -161,11 +164,74 @@ namespace BPAMatchineTrack.Controllers
 
         [HttpGet]
         [Authorize(Roles = "User,Admin,Super Admin")]
-        public JsonResult GetAllLocationIds()
+        public async Task<JsonResult> GetAllLocationIdsAsync()
         {
-            var locations = _context.TblMcLocations
-                .Select(l => new { l.Lid, l.Name })
-                .ToList();
+            //var locations = _context.TblMcLocations
+            //    .Select(l => new { l.Lid, l.Name })
+            //    .ToList();
+
+            //var locations = (from l in _context.TblMcLocations
+            //                 join c in _context.TblCompanyInfos
+            //                 on l.Cid equals c.Cid
+            //                 select new
+            //                 {
+            //                     l.Lid,
+            //                     l.Name,
+            //                     CompanyName = c.CompanyName
+            //                 })
+            //     .ToList();
+
+            //var userName = User.Identity.Name;
+            //var prefix = userName.Split('_')[0].ToLower();
+
+            //var query = _context.TblMcLocations.Join(_context.TblCompanyInfos,
+            //              l => l.Cid,
+            //              c => c.Cid,
+            //              (l, c) => new
+            //              {
+            //                  l.Lid,
+            //                  l.Name,
+            //                  CompanyName = c.CompanyName,
+            //                  ShortName = c.ShortName
+            //              });
+
+            //var hasMatch = query.Any(x => x.ShortName.ToLower() == prefix);
+
+            //var locations = hasMatch
+            //    ? query.Where(x => x.ShortName.ToLower() == prefix)
+            //           .Select(x => new { x.Lid, x.Name, x.CompanyName })
+            //           .ToList()
+            //    : query.Select(x => new { x.Lid, x.Name, x.CompanyName })
+            //           .ToList();
+
+            var user = await _userManager.GetUserAsync(User);
+
+            //bool isAdmin = await _userManager.IsInRoleAsync(user, "Admin")
+            //            || await _userManager.IsInRoleAsync(user, "SuperAdmin");
+            bool isAdmin = User.IsInRole("Admin") || User.IsInRole("Super Admin");
+
+            var prefix = user.UserName.Split('_')[0].ToLower();
+            //var userName = User.Identity.Name;
+            //var prefix = userName.Split('_')[0].ToLower();
+
+            var locations = _context.TblMcLocations.Join(_context.TblCompanyInfos,
+                              l => l.Cid,
+                              c => c.Cid,
+                              (l, c) => new
+                              {
+                                  l.Lid,
+                                  l.Name,
+                                  CompanyName = c.CompanyName,
+                                  ShortName = c.ShortName
+                              })
+                            .Where(x => isAdmin || x.ShortName.ToLower() == prefix)
+                            .Select(x => new
+                            {
+                                x.Lid,
+                                x.Name,
+                                x.CompanyName
+                            })
+                            .ToList();
 
             if (locations == null || !locations.Any())
             {

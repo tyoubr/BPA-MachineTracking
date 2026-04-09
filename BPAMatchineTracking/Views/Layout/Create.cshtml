@@ -482,7 +482,7 @@
                         // dropdown.empty().append('<option value="">-- Select a Location --</option>');
                         dropdown.empty().append('<option></option>');
                         response.data.forEach(location => {
-                            dropdown.append(`<option value="${location.lid}">${location.lid} - ${location.name}</option>`);
+                            dropdown.append(`<option value="${location.lid}">${location.lid} - ${location.name} - ${location.companyName}</option>`);
                         });
                         dropdown.select2({
                             placeholder: "Type to search by Location ID or Name",

@@ -1783,9 +1783,7 @@
             // 
             // GroupFooter1
             // 
-            this.GroupFooter1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrTable3});
-            this.GroupFooter1.HeightF = 35.93571F;
+            this.GroupFooter1.HeightF = 0F;
             this.GroupFooter1.Name = "GroupFooter1";
             // 
             // xrTable3
@@ -1796,7 +1794,7 @@
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.xrTable3.BorderWidth = 0.25F;
             this.xrTable3.Font = new DevExpress.Drawing.DXFont("Calibri", 12F, DevExpress.Drawing.DXFontStyle.Bold);
-            this.xrTable3.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
+            this.xrTable3.LocationFloat = new DevExpress.Utils.PointFloat(0.2710342F, 0F);
             this.xrTable3.Name = "xrTable3";
             this.xrTable3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
             this.xrTable3.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
@@ -2667,7 +2665,7 @@
             // 
             this.xrTableCell142.Angle = 90F;
             this.xrTableCell142.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumCount([RENT_MC])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([RENT_MC])")});
             this.xrTableCell142.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell142.Multiline = true;
             this.xrTableCell142.Name = "xrTableCell142";
@@ -2704,12 +2702,14 @@
             // 
             // ReportFooter
             // 
-            this.ReportFooter.HeightF = 0F;
+            this.ReportFooter.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrTable3});
+            this.ReportFooter.HeightF = 35.93571F;
             this.ReportFooter.Name = "ReportFooter";
             // 
             // PageFooter
             // 
-            this.PageFooter.HeightF = 21.58847F;
+            this.PageFooter.HeightF = 22.76891F;
             this.PageFooter.Name = "PageFooter";
             // 
             // calculatedField1

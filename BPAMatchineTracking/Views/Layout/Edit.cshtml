@@ -43,13 +43,16 @@
                             <input id="LOCATION_DETAILS" asp-for="LOCATION_DETAILS" class="form-control form-control-lg shadow-sm" readonly />
                             <span asp-validation-for="LOCATION_DETAILS" class="text-danger"></span>
                         </div>
-                        <div class="form-group mb-4">
-                            <label asp-for="OCID" class="form-label">Company</label>
-                            <select asp-for="OCID" class="form-control form-control-lg shadow-sm" asp-items="ViewBag.Companies">
-                                <option value="">-- Select Company --</option>
-                            </select>
-                            <span asp-validation-for="OCID" class="text-danger"></span>
-                        </div>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Super Admin"))
+                        {
+                            <div class="form-group mb-4">
+                                <label asp-for="OCID" class="form-label">Others Company</label>
+                                <select asp-for="OCID" class="form-control form-control-lg shadow-sm" asp-items="ViewBag.Companies">
+                                    <option value="">-- Select Company --</option>
+                                </select>
+                                <span asp-validation-for="OCID" class="text-danger"></span>
+                            </div>
+                        }
 
                         <div class="form-group mb-4">
                             <label asp-for="STATUS" class="form-label">Status</label>
@@ -95,7 +98,7 @@
                         dropdown.append('<option value="">-- Select a Location --</option>');
 
                         response.data.forEach(function (location) {
-                            dropdown.append(`<option value="${location.lid}" ${location.lid === '@Model.LID' ? 'selected' : ''}>${location.lid} - ${location.name}</option>`);
+                            dropdown.append(`<option value="${location.lid}" ${location.lid === '@Model.LID' ? 'selected' : ''}>${location.lid} - ${location.name}-${location.companyName}</option>`);
                         });
 
                         $('#lidDropdown').select2({

@@ -166,6 +166,10 @@ namespace BPAMatchineTrack.Models
                 entity.HasOne(d => d.CidNavigation)
                     .WithMany(p => p.TblMcLocations)
                     .HasForeignKey(d => d.Cid);
+                // ✅ ADD THIS
+                entity.HasOne(d => d.FidNavigation)
+                    .WithMany(p => p.TblMcLocations)
+                    .HasForeignKey(d => d.Fid);
             });
 
 

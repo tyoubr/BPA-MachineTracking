@@ -1,4 +1,5 @@
 ﻿using BPAMatchineTrack.Reports;
+using BPAMatchineTracking.Reports;
 using DevExpress.XtraReports.UI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -273,6 +274,12 @@ namespace BPAMatchineTrack.Controllers
         public IActionResult DateWiseMachineStatus()
         {
             var report = new rptDatewiseMachineStatus(); // not from cache
+            ViewBag.ReportName = report;
+            return View("~/Views/Shared/_LayoutReport.cshtml");
+        }
+        public IActionResult OthersCompanyMachineStatus()
+        {
+            var report = new rptMachine_in_OC();
             ViewBag.ReportName = report;
             return View("~/Views/Shared/_LayoutReport.cshtml");
         }

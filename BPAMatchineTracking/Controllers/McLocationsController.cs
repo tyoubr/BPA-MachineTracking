@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BPAMatchineTrack.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BPAMatchineTrack.Controllers
 {
+    [Authorize]
     public class McLocationsController : Controller
     {
         private readonly CottonclubContext _context;
@@ -19,6 +21,8 @@ namespace BPAMatchineTrack.Controllers
         }
 
         // GET: McLocations
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Index()
         {
             var cottonclubContext = _context.TblMcLocations.Include(t => t.Bu).Include(t => t.CidNavigation).Include(t => t.FidNavigation);
@@ -26,6 +30,8 @@ namespace BPAMatchineTrack.Controllers
         }
 
         // GET: McLocations/Details/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,7 +52,9 @@ namespace BPAMatchineTrack.Controllers
             return View(tblMcLocation);
         }
 
-         // GET: McLocations/Create
+        // GET: McLocations/Create
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public IActionResult Create()
         {
             ViewBag.Cid = new SelectList(_context.TblCompanyInfos, "Cid", "CompanyName");
@@ -55,6 +63,7 @@ namespace BPAMatchineTrack.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Create([Bind("Lid,Cid,Buid,Fid,Name,Remarks,Opt1,Opt2,Opt3,Status")] TblMcLocation tblMcLocation)
         {
             if (ModelState.IsValid)
@@ -71,6 +80,8 @@ namespace BPAMatchineTrack.Controllers
 
 
         // GET: McLocations/Edit/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var mcLocation = await _context.TblMcLocations.FindAsync(id);
@@ -88,6 +99,7 @@ namespace BPAMatchineTrack.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Lid,Cid,Buid,Fid,Name,Status,Remarks")] TblMcLocation mcLocation)
         {
             if (id != mcLocation.Lid)
@@ -129,6 +141,8 @@ namespace BPAMatchineTrack.Controllers
 
 
         // GET: McLocations/Delete/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -152,6 +166,7 @@ namespace BPAMatchineTrack.Controllers
         // POST: McLocations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tblMcLocation = await _context.TblMcLocations.FindAsync(id);

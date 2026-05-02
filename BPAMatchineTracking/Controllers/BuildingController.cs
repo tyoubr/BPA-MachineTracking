@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 using BPAMatchineTrack.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BPAMachineTrack.Controllers
 {
+    [Authorize]
     public class BuildingController : Controller
     {
         private readonly CottonclubContext _context;
@@ -18,6 +20,8 @@ namespace BPAMachineTrack.Controllers
         }
 
         // GET: Building
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Index()
         {
             var cottonclubContext = _context.TblBuildingInfos.Include(t => t.CidNavigation);
@@ -25,6 +29,8 @@ namespace BPAMachineTrack.Controllers
         }
 
         // GET: Building/Details/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,6 +50,8 @@ namespace BPAMachineTrack.Controllers
         }
 
         // GET: Building/Create
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public IActionResult Create()
         {
             ViewData["Cid"] = new SelectList(_context.TblCompanyInfos, "Cid", "CompanyName");
@@ -53,6 +61,7 @@ namespace BPAMachineTrack.Controllers
         // POST: Building/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Create([Bind("Buid,Cid,Name,Description,Remarks,Status")] TblBuildingInfo tblBuildingInfo)
         {
             if (ModelState.IsValid)
@@ -67,6 +76,8 @@ namespace BPAMachineTrack.Controllers
 
 
         // GET: Building/Edit/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +97,7 @@ namespace BPAMachineTrack.Controllers
         // POST: Building/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Buid,Name,Cid,Description,Remarks,Status,Opt1,Opt2,Opt3")] TblBuildingInfo tblBuildingInfo)
         {
             if (id != tblBuildingInfo.Buid)
@@ -118,6 +130,8 @@ namespace BPAMachineTrack.Controllers
         }
 
         // GET: Building/Delete/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -139,6 +153,8 @@ namespace BPAMachineTrack.Controllers
         // POST: Building/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tblBuildingInfo = await _context.TblBuildingInfos.FindAsync(id);

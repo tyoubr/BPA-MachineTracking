@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 //using BPAMachineTrack.Models;
 using BPAMatchineTrack.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BPAMachineTrack.Controllers
 {
+    [Authorize]
     public class FloorController : Controller
     {
         private readonly CottonclubContext _context;
@@ -20,6 +22,8 @@ namespace BPAMachineTrack.Controllers
         }
 
         // GET: Floor
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Index()
         {
             var cottonclubContext = _context.TblFloorInfos.Include(t => t.Bu).Include(t => t.CidNavigation);
@@ -27,6 +31,8 @@ namespace BPAMachineTrack.Controllers
         }
 
         // GET: Floor/Details/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -59,6 +65,7 @@ namespace BPAMachineTrack.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Create([Bind("Fid,Cid,Buid,Name,Description,Remarks,Status")] TblFloorInfo tblFloorInfo)
         {
             if (ModelState.IsValid)
@@ -73,6 +80,8 @@ namespace BPAMachineTrack.Controllers
         }
 
         // GET: Floor/Edit/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,6 +104,7 @@ namespace BPAMachineTrack.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Fid,Cid,Buid,Name,Description,Remarks,Status")] TblFloorInfo tblFloorInfo)
         {
             if (id != tblFloorInfo.Fid)
@@ -128,6 +138,8 @@ namespace BPAMachineTrack.Controllers
         }
 
         // GET: Floor/Delete/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -150,6 +162,7 @@ namespace BPAMachineTrack.Controllers
         // POST: Floor/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tblFloorInfo = await _context.TblFloorInfos.FindAsync(id);

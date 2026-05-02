@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BPAMatchineTrack.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BPAMatchineTrack.Controllers
 {
+    [Authorize]
     public class BrandInformationController : Controller
     {
         private readonly CottonclubContext _context;
@@ -19,12 +21,16 @@ namespace BPAMatchineTrack.Controllers
         }
 
         // GET: BrandInformation
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.TblBrandInformation.ToListAsync());
         }
 
         // GET: BrandInformation/Details/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,6 +49,8 @@ namespace BPAMatchineTrack.Controllers
         }
 
         // GET: BrandInformation/Create
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public IActionResult Create()
         {
             return View();
@@ -53,6 +61,7 @@ namespace BPAMatchineTrack.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Create([Bind("Brid,Name,Description,Status")] TblBrandInformation tblBrandInformation)
         {
             if (ModelState.IsValid)
@@ -65,6 +74,8 @@ namespace BPAMatchineTrack.Controllers
         }
 
         // GET: BrandInformation/Edit/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,6 +96,7 @@ namespace BPAMatchineTrack.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Brid,Name,Description,Status")] TblBrandInformation tblBrandInformation)
         {
             if (id != tblBrandInformation.Brid)
@@ -116,6 +128,8 @@ namespace BPAMatchineTrack.Controllers
         }
 
         // GET: BrandInformation/Delete/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,6 +150,7 @@ namespace BPAMatchineTrack.Controllers
         // POST: BrandInformation/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tblBrandInformation = await _context.TblBrandInformation.FindAsync(id);

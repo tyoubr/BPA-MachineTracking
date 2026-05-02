@@ -1126,7 +1126,7 @@
             // 
             this.xrTableCell130.Angle = 90F;
             this.xrTableCell130.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[LineP1]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line50]")});
             this.xrTableCell130.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell130.Multiline = true;
             this.xrTableCell130.Name = "xrTableCell130";
@@ -1138,7 +1138,7 @@
             // 
             this.xrTableCell131.Angle = 90F;
             this.xrTableCell131.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[LineP2]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line51]")});
             this.xrTableCell131.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell131.Multiline = true;
             this.xrTableCell131.Name = "xrTableCell131";
@@ -1150,7 +1150,7 @@
             // 
             this.xrTableCell132.Angle = 90F;
             this.xrTableCell132.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[LineP3]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line52]")});
             this.xrTableCell132.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell132.Multiline = true;
             this.xrTableCell132.Name = "xrTableCell132";
@@ -1162,7 +1162,7 @@
             // 
             this.xrTableCell133.Angle = 90F;
             this.xrTableCell133.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[LineP4]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line53]")});
             this.xrTableCell133.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell133.Multiline = true;
             this.xrTableCell133.Name = "xrTableCell133";
@@ -1174,7 +1174,7 @@
             // 
             this.xrTableCell134.Angle = 90F;
             this.xrTableCell134.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[LineP5]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line54]")});
             this.xrTableCell134.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell134.Multiline = true;
             this.xrTableCell134.Name = "xrTableCell134";
@@ -1186,7 +1186,7 @@
             // 
             this.xrTableCell135.Angle = 90F;
             this.xrTableCell135.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[LineP6]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line55]")});
             this.xrTableCell135.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell135.Multiline = true;
             this.xrTableCell135.Name = "xrTableCell135";
@@ -1198,7 +1198,7 @@
             // 
             this.xrTableCell136.Angle = 90F;
             this.xrTableCell136.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[LineP7]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line56]")});
             this.xrTableCell136.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell136.Multiline = true;
             this.xrTableCell136.Name = "xrTableCell136";
@@ -1210,7 +1210,7 @@
             // 
             this.xrTableCell137.Angle = 90F;
             this.xrTableCell137.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[LineP8]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line57]")});
             this.xrTableCell137.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell137.Multiline = true;
             this.xrTableCell137.Name = "xrTableCell137";
@@ -1221,6 +1221,8 @@
             // xrTableCell138
             // 
             this.xrTableCell138.Angle = 90F;
+            this.xrTableCell138.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line58]")});
             this.xrTableCell138.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell138.Multiline = true;
             this.xrTableCell138.Name = "xrTableCell138";
@@ -1230,6 +1232,8 @@
             // xrTableCell139
             // 
             this.xrTableCell139.Angle = 90F;
+            this.xrTableCell139.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line59]")});
             this.xrTableCell139.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell139.Multiline = true;
             this.xrTableCell139.Name = "xrTableCell139";
@@ -1239,6 +1243,8 @@
             // xrTableCell140
             // 
             this.xrTableCell140.Angle = 90F;
+            this.xrTableCell140.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line60]")});
             this.xrTableCell140.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell140.Multiline = true;
             this.xrTableCell140.Name = "xrTableCell140";
@@ -1248,6 +1254,8 @@
             // xrTableCell141
             // 
             this.xrTableCell141.Angle = 90F;
+            this.xrTableCell141.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line61]")});
             this.xrTableCell141.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell141.Multiline = true;
             this.xrTableCell141.Name = "xrTableCell141";
@@ -1257,6 +1265,8 @@
             // xrTableCell142
             // 
             this.xrTableCell142.Angle = 90F;
+            this.xrTableCell142.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line62]")});
             this.xrTableCell142.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell142.Multiline = true;
             this.xrTableCell142.Name = "xrTableCell142";
@@ -1266,6 +1276,8 @@
             // xrTableCell143
             // 
             this.xrTableCell143.Angle = 90F;
+            this.xrTableCell143.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line63]")});
             this.xrTableCell143.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell143.Multiline = true;
             this.xrTableCell143.Name = "xrTableCell143";
@@ -1275,6 +1287,8 @@
             // xrTableCell144
             // 
             this.xrTableCell144.Angle = 90F;
+            this.xrTableCell144.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Line23A]")});
             this.xrTableCell144.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell144.Multiline = true;
             this.xrTableCell144.Name = "xrTableCell144";
@@ -1552,7 +1566,7 @@
             // 
             // ReportFooter
             // 
-            this.ReportFooter.HeightF = 2.070414F;
+            this.ReportFooter.HeightF = 4.989294F;
             this.ReportFooter.Name = "ReportFooter";
             // 
             // PageHeader
@@ -2241,7 +2255,7 @@
             this.xrTableCell63.Multiline = true;
             this.xrTableCell63.Name = "xrTableCell63";
             this.xrTableCell63.StylePriority.UseFont = false;
-            this.xrTableCell63.Text = "Line-P1";
+            this.xrTableCell63.Text = "Line-50";
             this.xrTableCell63.Weight = 0.16779879186397934D;
             // 
             // xrTableCell64
@@ -2251,7 +2265,7 @@
             this.xrTableCell64.Multiline = true;
             this.xrTableCell64.Name = "xrTableCell64";
             this.xrTableCell64.StylePriority.UseFont = false;
-            this.xrTableCell64.Text = "Line-P2";
+            this.xrTableCell64.Text = "Line-51";
             this.xrTableCell64.Weight = 0.16779879186397934D;
             // 
             // xrTableCell65
@@ -2261,7 +2275,7 @@
             this.xrTableCell65.Multiline = true;
             this.xrTableCell65.Name = "xrTableCell65";
             this.xrTableCell65.StylePriority.UseFont = false;
-            this.xrTableCell65.Text = "Line-P3";
+            this.xrTableCell65.Text = "Line-52";
             this.xrTableCell65.Weight = 0.16779879186397934D;
             // 
             // xrTableCell66
@@ -2271,7 +2285,7 @@
             this.xrTableCell66.Multiline = true;
             this.xrTableCell66.Name = "xrTableCell66";
             this.xrTableCell66.StylePriority.UseFont = false;
-            this.xrTableCell66.Text = "Line-P4";
+            this.xrTableCell66.Text = "Line-53";
             this.xrTableCell66.Weight = 0.16779879186397928D;
             // 
             // xrTableCell67
@@ -2281,7 +2295,7 @@
             this.xrTableCell67.Multiline = true;
             this.xrTableCell67.Name = "xrTableCell67";
             this.xrTableCell67.StylePriority.UseFont = false;
-            this.xrTableCell67.Text = "Line-P5";
+            this.xrTableCell67.Text = "Line-54";
             this.xrTableCell67.Weight = 0.16779879186397934D;
             // 
             // xrTableCell68
@@ -2291,7 +2305,7 @@
             this.xrTableCell68.Multiline = true;
             this.xrTableCell68.Name = "xrTableCell68";
             this.xrTableCell68.StylePriority.UseFont = false;
-            this.xrTableCell68.Text = "Line-P6";
+            this.xrTableCell68.Text = "Line-55";
             this.xrTableCell68.Weight = 0.16779879186397934D;
             // 
             // xrTableCell69
@@ -2301,7 +2315,7 @@
             this.xrTableCell69.Multiline = true;
             this.xrTableCell69.Name = "xrTableCell69";
             this.xrTableCell69.StylePriority.UseFont = false;
-            this.xrTableCell69.Text = "Line-P7";
+            this.xrTableCell69.Text = "Line-56";
             this.xrTableCell69.Weight = 0.16779879186397934D;
             // 
             // xrTableCell70
@@ -2311,7 +2325,7 @@
             this.xrTableCell70.Multiline = true;
             this.xrTableCell70.Name = "xrTableCell70";
             this.xrTableCell70.StylePriority.UseFont = false;
-            this.xrTableCell70.Text = "Line-P8";
+            this.xrTableCell70.Text = "Line-57";
             this.xrTableCell70.Weight = 0.16779879186397928D;
             // 
             // xrTableCell71
@@ -2321,6 +2335,7 @@
             this.xrTableCell71.Multiline = true;
             this.xrTableCell71.Name = "xrTableCell71";
             this.xrTableCell71.StylePriority.UseFont = false;
+            this.xrTableCell71.Text = "Line-58";
             this.xrTableCell71.Weight = 0.16779879186397934D;
             // 
             // xrTableCell72
@@ -2330,6 +2345,7 @@
             this.xrTableCell72.Multiline = true;
             this.xrTableCell72.Name = "xrTableCell72";
             this.xrTableCell72.StylePriority.UseFont = false;
+            this.xrTableCell72.Text = "Line-59";
             this.xrTableCell72.Weight = 0.16779879186397934D;
             // 
             // xrTableCell73
@@ -2339,6 +2355,7 @@
             this.xrTableCell73.Multiline = true;
             this.xrTableCell73.Name = "xrTableCell73";
             this.xrTableCell73.StylePriority.UseFont = false;
+            this.xrTableCell73.Text = "Line-60";
             this.xrTableCell73.Weight = 0.16779879186397928D;
             // 
             // xrTableCell74
@@ -2348,6 +2365,7 @@
             this.xrTableCell74.Multiline = true;
             this.xrTableCell74.Name = "xrTableCell74";
             this.xrTableCell74.StylePriority.UseFont = false;
+            this.xrTableCell74.Text = "Line-61";
             this.xrTableCell74.Weight = 0.16779879186397934D;
             // 
             // xrTableCell75
@@ -2357,6 +2375,7 @@
             this.xrTableCell75.Multiline = true;
             this.xrTableCell75.Name = "xrTableCell75";
             this.xrTableCell75.StylePriority.UseFont = false;
+            this.xrTableCell75.Text = "Line-62";
             this.xrTableCell75.Weight = 0.16779879186397934D;
             // 
             // xrTableCell76
@@ -2366,6 +2385,7 @@
             this.xrTableCell76.Multiline = true;
             this.xrTableCell76.Name = "xrTableCell76";
             this.xrTableCell76.StylePriority.UseFont = false;
+            this.xrTableCell76.Text = "Line-63";
             this.xrTableCell76.Weight = 0.16779879186397936D;
             // 
             // xrTableCell77
@@ -2377,6 +2397,7 @@
             this.xrTableCell77.Name = "xrTableCell77";
             this.xrTableCell77.StylePriority.UseBackColor = false;
             this.xrTableCell77.StylePriority.UseFont = false;
+            this.xrTableCell77.Text = "Line-23 A";
             this.xrTableCell77.Weight = 0.16779879186397934D;
             // 
             // xrTableCell78
@@ -3355,7 +3376,7 @@
             // 
             this.xrTableCell219.Angle = 90F;
             this.xrTableCell219.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([LineP1])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([Line50])")});
             this.xrTableCell219.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell219.Multiline = true;
             this.xrTableCell219.Name = "xrTableCell219";
@@ -3369,7 +3390,7 @@
             // 
             this.xrTableCell220.Angle = 90F;
             this.xrTableCell220.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([LineP2])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([Line51])")});
             this.xrTableCell220.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell220.Multiline = true;
             this.xrTableCell220.Name = "xrTableCell220";
@@ -3383,7 +3404,7 @@
             // 
             this.xrTableCell221.Angle = 90F;
             this.xrTableCell221.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([LineP3])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([Line52])")});
             this.xrTableCell221.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell221.Multiline = true;
             this.xrTableCell221.Name = "xrTableCell221";
@@ -3397,7 +3418,7 @@
             // 
             this.xrTableCell222.Angle = 90F;
             this.xrTableCell222.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([LineP4])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([Line53])")});
             this.xrTableCell222.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell222.Multiline = true;
             this.xrTableCell222.Name = "xrTableCell222";
@@ -3411,7 +3432,7 @@
             // 
             this.xrTableCell223.Angle = 90F;
             this.xrTableCell223.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([LineP5])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([Line54])")});
             this.xrTableCell223.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell223.Multiline = true;
             this.xrTableCell223.Name = "xrTableCell223";
@@ -3425,7 +3446,7 @@
             // 
             this.xrTableCell224.Angle = 90F;
             this.xrTableCell224.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([LineP6])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([Line55])")});
             this.xrTableCell224.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell224.Multiline = true;
             this.xrTableCell224.Name = "xrTableCell224";
@@ -3439,7 +3460,7 @@
             // 
             this.xrTableCell225.Angle = 90F;
             this.xrTableCell225.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([LineP7])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([Line56])")});
             this.xrTableCell225.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell225.Multiline = true;
             this.xrTableCell225.Name = "xrTableCell225";
@@ -3453,7 +3474,7 @@
             // 
             this.xrTableCell226.Angle = 90F;
             this.xrTableCell226.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([LineP8])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([Line57])")});
             this.xrTableCell226.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell226.Multiline = true;
             this.xrTableCell226.Name = "xrTableCell226";
@@ -3551,7 +3572,7 @@
             // 
             this.xrTableCell233.Angle = 90F;
             this.xrTableCell233.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([Line64])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([Line23A])")});
             this.xrTableCell233.Font = new DevExpress.Drawing.DXFont("Calibri", 9F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell233.Multiline = true;
             this.xrTableCell233.Name = "xrTableCell233";

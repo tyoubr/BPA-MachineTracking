@@ -51,6 +51,7 @@
                         <table class="table table-hover text-nowrap">
                             <thead>
                                 <tr>
+                                    <th>Machine ID</th>
                                     <th>Machine Number</th>
                                     <th>Name</th>
                                     <th>Machine Type</th>
@@ -67,6 +68,7 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.MCID)</td>
                                         <td>@Html.DisplayFor(modelItem => item.MCNO)</td>
                                         <td>@Html.DisplayFor(modelItem => item.Name)</td>
                                         <td>@Html.DisplayFor(modelItem => item.MT.Name)</td>

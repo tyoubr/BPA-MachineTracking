@@ -35,11 +35,25 @@ namespace BPAMatchineTrack.Controllers
             // Apply search filter if searchTerm is provided
             if (!string.IsNullOrEmpty(searchTerm))
             {
-                query = query.Where(md => md.Name.Contains(searchTerm)
-                                        || md.MCNO.Contains(searchTerm)
-                                        || md.MT.Name.Contains(searchTerm)
-                                        || md.SRNO.Contains(searchTerm)
-                                        || md.Model.Contains(searchTerm));
+                if (int.TryParse(searchTerm, out int mcid))
+                {
+                    query = query.Where(md =>
+                        md.Name.Contains(searchTerm) ||
+                        md.MCNO.Contains(searchTerm) ||
+                        md.MT.Name.Contains(searchTerm) ||
+                        md.SRNO.Contains(searchTerm) ||
+                        md.Model.Contains(searchTerm) ||
+                        md.MCID == mcid);
+                }
+                else
+                {
+                    query = query.Where(md =>
+                        md.Name.Contains(searchTerm) ||
+                        md.MCNO.Contains(searchTerm) ||
+                        md.MT.Name.Contains(searchTerm) ||
+                        md.SRNO.Contains(searchTerm) ||
+                        md.Model.Contains(searchTerm));
+                }
             }
 
             // Calculate pagination values

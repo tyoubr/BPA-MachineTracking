@@ -18,6 +18,9 @@ public partial class tbl_Layout
     public string? LOCATION_DETAILS { get; set; }
 
     public string? STATUS { get; set; }
+    public int? MachineIdleCause { get; set; }
+    public int? MachineUmCause { get; set; }
+    public int? MachineDmgCause { get; set; }
     public int? OCID { get; set; }
     [ForeignKey("OCID")]
     public virtual BPAMatchineTrack.Models.tbl_Other_Company? OtherCompany { get; set; }

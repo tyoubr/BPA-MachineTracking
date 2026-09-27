@@ -4,529 +4,1293 @@
     ViewData["Title"] = "Create";
 }
 
-<!-- External Dependencies -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
 
 <style>
     :root {
-        --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
-        --glass-bg: rgba(255, 255, 255, 0.95);
         --input-border: #e2e8f0;
         --input-focus: #6366f1;
-        --text-main: #1e293b;
-        --text-muted: #64748b;
-        --field-height: 64px;
     }
 
-    body {
-        background-color: #f8fafc;
-        color: var(--text-main);
-        font-family: 'Inter', -apple-system, sans-serif;
+    .form-control,
+    .form-select {
+        min-height: 48px;
     }
 
-    .page-wrapper {
-        min-height: 90vh;
-        display: flex;
-        align-items: center;
-        padding: 3rem 0;
+    .select2-container {
+        width: 100% !important;
     }
 
-    .modern-card {
-        background: var(--glass-bg);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 28px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
-        backdrop-filter: blur(10px);
-        overflow: hidden;
-    }
-
-    .card-header-accent {
-        height: 8px;
-        background: var(--primary-gradient);
-    }
-
-    .form-label {
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: var(--text-main);
-        margin-bottom: 0.75rem;
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-    }
-
-    .form-control-modern {
-        border: 1px solid var(--input-border) !important;
-        border-radius: 16px !important;
-        height: var(--field-height) !important;
-        line-height: var(--field-height) !important;
-        padding: 0 1.5rem !important;
-        font-size: 1.15rem !important;
-        transition: all 0.25s ease;
-        background-color: #ffffff !important;
-        display: block;
-        width: 100%;
-    }
-
-        .form-control-modern:focus {
-            border-color: var(--input-focus) !important;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12) !important;
-        }
-
-    .readonly-display {
-        background-color: #f8fafc !important;
-        border: 1px dashed #cbd5e1 !important;
-        color: var(--text-muted) !important;
-    }
-
-    .btn-modern {
-        background: var(--primary-gradient);
-        color: white;
-        border: none;
-        border-radius: 16px;
-        height: 68px;
-        font-size: 1.15rem;
-        font-weight: 700;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.8rem;
-    }
-
-        .btn-modern:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 25px -5px rgba(67, 56, 202, 0.4);
-            color: white;
-        }
-
-    .input-group-icon {
-        color: var(--text-muted);
-        font-size: 1.3rem;
-    }
-
-    /* GLOBAL SELECT2 OVERRIDES */
     .select2-container--default .select2-selection--single {
-        height: 50px !important;
-        border: 1px solid #e2e8f0 !important;
-        border-radius: 16px !important;
+        height: 48px !important;
+        border: 1px solid var(--input-border) !important;
+        border-radius: 0.375rem !important;
         display: flex !important;
         align-items: center !important;
+        background-color: #fff !important;
+        box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
     }
 
-    .select2-selection__rendered {
-        line-height: 64px !important;
-        padding-left: 1.5rem !important;
-        font-size: 1.15rem !important;
+        .select2-container--default
+        .select2-selection--single
+        .select2-selection__rendered {
+            line-height: 46px !important;
+            padding-left: 16px !important;
+            padding-right: 40px !important;
+            font-size: 1.1rem !important;
+            color: #212529 !important;
+        }
+
+        .select2-container--default
+        .select2-selection--single
+        .select2-selection__placeholder {
+            color: #6c757d !important;
+        }
+
+        .select2-container--default
+        .select2-selection--single
+        .select2-selection__arrow {
+            height: 46px !important;
+            right: 8px !important;
+        }
+
+    .select2-container--default.select2-container--focus
+    .select2-selection--single,
+    .select2-container--default.select2-container--open
+    .select2-selection--single {
+        border-color: var(--input-focus) !important;
+        box-shadow: 0 0 0 .25rem rgba(99, 102, 241, .15) !important;
     }
 
-    .select2-selection__arrow {
-        height: 64px !important;
-        top: 0 !important;
+    .cause-section {
+        display: none;
     }
 </style>
 
-@* <div class="page-wrapper">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-6 col-lg-8 col-md-10">
-                <div class="modern-card">
-                    <div class="card-header-accent"></div>
-                    <div class="p-4 p-md-5">
-                        <div class="text-center mb-5">
-                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 80px; height: 80px; background: #eef2ff;">
-                                <i class="bi bi-geo-alt-fill text-primary" style="font-size: 2rem; color: #4338ca;"></i>
-                            </div>
-                            <h2 class="fw-bold h3">Update Location</h2>
-                        </div>
-
-                        <form asp-action="Create" id="layoutCreateForm">
-                            <div class="row g-4">
-                                <div class="col-sm-6">
-                                    <label class="form-label"><i class="bi bi-calendar3"></i> Entry Date</label>
-                                    <input asp-for="DATE" id="DATE" class="form-control-modern" type="date" required />
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="form-label"><i class="bi bi-activity"></i> Status</label>
-                                    <select asp-for="STATUS" class="form-select form-control-modern" required>
-                                        <option value="">Choose...</option>
-                                        <option value="Running">Running</option>
-                                        <option value="Idle">Idle</option>
-                                        <option value="Under maintenance">Under maintenance</option>
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label"><i class="bi bi-cpu"></i> Select Machine</label>
-                                    <select id="machineDropdown" name="MCID" class="form-select" required style="width: 100%;"></select>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label"><i class="bi bi-building"></i> New Location</label>
-                                    <select id="lidDropdown" name="LID" class="form-select" required style="width: 100%;"></select>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label"><i class="bi bi-info-circle"></i> Summary</label>
-                                    <input id="LOCATION_DETAILS" class="form-control-modern readonly-display" readonly />
-                                </div>
-                                <div class="col-12 mt-5">
-                                    <button type="submit" class="btn btn-modern w-100">Confirm & Save Record</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> *@
-
-@* @section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> *@
-
-    @* <script>
-        $(document).ready(function () {
-            // Function to force style because CSS alone is failing
-            function forceSelect2Height() {
-                $('.select2-selection--single').css({
-                    'height': '64px',
-                    'display': 'flex',
-                    'align-items': 'center',
-                    'border-radius': '16px'
-                });
-                $('.select2-selection__rendered').css({
-                    'line-height': '64px',
-                    'padding-left': '1.5rem'
-                });
-                $('.select2-selection__arrow').css({
-                    'height': '64px'
-                });
-            }
-
-            // Watch for DOM changes to re-apply height if Select2 re-renders
-            const observer = new MutationObserver(forceSelect2Height);
-            observer.observe(document.body, { childList: true, subtree: true });
-
-            const config = { width: '100%', placeholder: "Select..." };
-            // const config = {
-            // width: '100%',
-            // placeholder: "Select...",
-            // dropdownParent: $('.modern-card'), // 👈 FIX for mobile
-            // minimumResultsForSearch: 0          // 👈 always show search box
-        };
-
-            $.ajax({
-                url: '/Layout/GetAllMachineIds',
-                success: function (r) {
-                    if (r.success) {
-                        const d = $('#machineDropdown').empty().append('<option></option>');
-                        r.data.forEach(m => d.append(new Option(`${m.mcid} — ${m.srno}`, m.mcid)));
-                        d.select2(config);
-                        forceSelect2Height();
-                    }
-                }
-            });
-
-            $.ajax({
-                url: '/Layout/GetAllLocationIds',
-                success: function (r) {
-                    if (r.success) {
-                        const d = $('#lidDropdown').empty().append('<option></option>');
-                        r.data.forEach(l => d.append(new Option(`${l.lid} | ${l.name}`, l.lid)));
-                        d.select2(config);
-                        forceSelect2Height();
-                    }
-                }
-            });
-
-            $('#lidDropdown').on('change', function () {
-                const lid = $(this).val();
-                if (lid) {
-                    $.get('/Layout/GetLocationDetails', { Lid: lid }, function (r) {
-                        if (r.success) $('#LOCATION_DETAILS').val(`${r.data.companyName} » ${r.data.floorName}`);
-                    });
-                }
-            });
-
-            $('#DATE').val(new Date().toISOString().split('T')[0]);
-        });
-    </script> *@
-@*     <script id="fixedScript01">
-        $(document).ready(function () {
-
-            // ================= SELECT2 INIT FUNCTION =================
-            function initSelect2(element) {
-                element.select2({
-                    width: '100%',
-                    placeholder: "--Select--",
-                    allowClear: true,
-                    minimumResultsForSearch: 0, // 🔥 always show search
-                    dropdownAutoWidth: true,
-                    closeOnSelect: true,
-                    dropdownParent: $('body') // 🔥 best for clean UI
-                });
-            }
-
-            // ================= MOBILE SEARCH FIX =================
-            $(document).on('select2:open', function () {
-                setTimeout(function () {
-                    document.querySelector('.select2-container--open .select2-search__field')?.focus();
-                }, 0);
-            });
-
-            // ================= MACHINE DROPDOWN =================
-            $.ajax({
-                url: '/Layout/GetAllMachineIds',
-                type: 'GET',
-                success: function (r) {
-                    if (r.success) {
-                        const d = $('#machineDropdown');
-                        d.empty().append('<option></option>');
-
-                        r.data.forEach(m => {
-                            d.append(new Option(`${m.mcid} — ${m.srno}`, m.mcid));
-                        });
-
-                        initSelect2(d); // ✅ apply select2
-                    }
-                },
-                error: function () {
-                    console.log('Error loading machine data');
-                }
-            });
-
-            // ================= LOCATION DROPDOWN =================
-            $.ajax({
-                url: '/Layout/GetAllLocationIds',
-                type: 'GET',
-                success: function (r) {
-                    if (r.success) {
-                        const d = $('#lidDropdown');
-                        d.empty().append('<option></option>');
-
-                        r.data.forEach(l => {
-                            d.append(new Option(`${l.lid} | ${l.name}`, l.lid));
-                        });
-
-                        initSelect2(d); // ✅ apply select2
-                    }
-                },
-                error: function () {
-                    console.log('Error loading location data');
-                }
-            });
-
-            // ================= LOCATION DETAILS =================
-            $('#lidDropdown').on('change', function () {
-                const lid = $(this).val();
-
-                if (lid) {
-                    $.ajax({
-                        url: '/Layout/GetLocationDetails',
-                        type: 'GET',
-                        data: { Lid: lid },
-                        success: function (r) {
-                            if (r.success) {
-                                $('#LOCATION_DETAILS').val(`${r.data.companyName} » ${r.data.floorName}`);
-                            }
-                        }
-                    });
-                } else {
-                    $('#LOCATION_DETAILS').val('');
-                }
-            });
-
-            // ================= DEFAULT DATE =================
-            $('#DATE').val(new Date().toISOString().split('T')[0]);
-
-        });
-    </script>
-
-} *@
-
-@* @model BPAMachineTrack.Models.tbl_Layout *@
-
-@{
-    ViewData["Title"] = "Create";
-}
-@* <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
- *@
-<!-- Include Select2 CSS -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
-
-<!-- Include Select2 JS -->
-
-
 
 <div class="container py-5">
+
     <div class="row justify-content-center">
+
         <div class="col-lg-8 col-md-10 col-12">
+
             <div class="card shadow-lg p-4 rounded-lg">
+
                 <div class="card-body">
-                    <h1 class="text-center text-primary mb-4">Set Machine's Current Location</h1>
+
+                    <h1 class="text-center text-primary mb-4">
+                        Set Machine's Current Location
+                    </h1>
+
                     <hr />
 
-                    <form asp-action="Create">
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <form asp-action="Create" method="post">
 
-                        <!-- DATE -->
-                        <div class="form-group mb-3">
-                            <label asp-for="DATE" class="form-label">Date</label>
-                            <input asp-for="DATE" class="form-control form-control-lg shadow-sm" placeholder="Select Date" type="date" />
-                            <span asp-validation-for="DATE" class="text-danger"></span>
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
                         </div>
 
-                        <!-- MACHINE ID Dropdown -->
+
+                        <!-- =========================
+                             DATE
+                             ========================= -->
+
                         <div class="form-group mb-3">
-                            <label for="machineDropdown" class="form-label">Select Machine</label>
-                            @* <select id="machineDropdown" name="MCID" class="form-select">
-                                <option value="">-- Select a Machine --</option>
-                            </select> *@
-                            <select id="machineDropdown" name="MCID" class="form-select">
-                                <option></option>
+
+                            <label asp-for="DATE"
+                                   class="form-label">
+                                Date
+                            </label>
+
+                            <input asp-for="DATE"
+                                   id="DATE"
+                                   class="form-control form-control-lg shadow-sm"
+                                   type="date"
+                                   required />
+
+                            <span asp-validation-for="DATE"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- =========================
+                             MACHINE
+                             ========================= -->
+
+                        <div class="form-group mb-3">
+
+                            <label for="machineDropdown"
+                                   class="form-label">
+                                Select Machine
+                            </label>
+
+                            <select id="machineDropdown"
+                                    name="MCID"
+                                    class="form-select form-control-lg shadow-sm"
+                                    required>
+
+                                <option value="">
+                                    -- Select a Machine --
+                                </option>
+
                             </select>
-                            <span asp-validation-for="MCID" class="text-danger"></span>
+
+                            <span asp-validation-for="MCID"
+                                  class="text-danger">
+                            </span>
+
                         </div>
 
-                        <!-- LID Dropdown -->
+
+                        <!-- =========================
+                             LOCATION
+                             ========================= -->
+
                         <div class="form-group mb-3">
-                            <label for="lidDropdown" class="form-label">Select Location</label>
-                            @* <select id="lidDropdown" name="LID" class="form-select">
-                                <option value="">-- Select a Location --</option>
-                            </select> *@
-                            <select id="lidDropdown" name="LID" class="form-select">
-                                <option></option>
+
+                            <label for="lidDropdown"
+                                   class="form-label">
+                                Select Location
+                            </label>
+
+                            <select id="lidDropdown"
+                                    name="LID"
+                                    class="form-select form-control-lg shadow-sm"
+                                    required>
+
+                                <option value="">
+                                    -- Select a Location --
+                                </option>
+
                             </select>
-                            <span asp-validation-for="LID" class="text-danger"></span>
+
+                            <span asp-validation-for="LID"
+                                  class="text-danger">
+                            </span>
+
                         </div>
 
-                        <!-- LOCATION DETAILS -->
+
+                        <!-- =========================
+                             LOCATION DETAILS
+                             ========================= -->
+
                         <div class="form-group mb-3">
-                            <label asp-for="LOCATION_DETAILS" class="form-label">Location Details</label>
-                            <input id="LOCATION_DETAILS" asp-for="LOCATION_DETAILS" class="form-control form-control-lg shadow-sm" readonly />
-                            <span asp-validation-for="LOCATION_DETAILS" class="text-danger"></span>
+
+                            <label asp-for="LOCATION_DETAILS"
+                                   class="form-label">
+                                Location Details
+                            </label>
+
+                            <input id="LOCATION_DETAILS"
+                                   asp-for="LOCATION_DETAILS"
+                                   class="form-control form-control-lg shadow-sm"
+                                   readonly />
+
+                            <span asp-validation-for="LOCATION_DETAILS"
+                                  class="text-danger">
+                            </span>
+
                         </div>
 
-                        <!-- STATUS -->
+
+                        <!-- =========================
+                             STATUS
+                             ========================= -->
+
                         <div class="form-group mb-4">
-                            <label asp-for="STATUS" class="form-label">Status</label>
-                            <select asp-for="STATUS" class="form-control form-control-lg shadow-sm">
-                                <option value="">Select Machine Status</option>
-                                <option value="Running">Running</option>
-                                <option value="Idle">Idle</option>
-                                <option value="Under maintenance">Under maintenance</option>
-                                <option value="Damaged">Damaged</option>
+
+                            <label asp-for="STATUS"
+                                   class="form-label">
+                                Status
+                            </label>
+
+                            <select asp-for="STATUS"
+                                    id="statusDropdown"
+                                    class="form-control form-control-lg shadow-sm"
+                                    required>
+
+                                <option value="">
+                                    -- Select Machine Status --
+                                </option>
+
+                                <option value="Running">
+                                    Running
+                                </option>
+
+                                <option value="Idle">
+                                    Idle
+                                </option>
+
+                                <option value="Under maintenance">
+                                    Under maintenance
+                                </option>
+
+                                <option value="Damaged">
+                                    Damaged
+                                </option>
+
                             </select>
-                            <span asp-validation-for="STATUS" class="text-danger"></span>
+
+                            <span asp-validation-for="STATUS"
+                                  class="text-danger">
+                            </span>
+
                         </div>
 
-                        <!-- Submit Button -->
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg">Create</button>
+
+                        <!-- =================================================
+                             IDLE CAUSE
+                             TBL_MC_IDLE_CAUSE
+                             PK = ICID
+                             NAME = CAUSE_NAME
+                             ================================================= -->
+
+                        <div id="idleCauseSection"
+                             class="form-group mb-4 cause-section">
+
+                            <label asp-for="MachineIdleCause"
+                                   class="form-label">
+
+                                Idle Cause
+
+                            </label>
+
+                            <select asp-for="MachineIdleCause"
+                                    id="MachineIdleCause"
+                                    class="form-control form-control-lg shadow-sm">
+
+                                <option value="">
+                                    -- Select Idle Cause --
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="MachineIdleCause"
+                                  class="text-danger">
+                            </span>
+
                         </div>
+
+
+                        <!-- =================================================
+                             DAMAGE CAUSE
+                             TBL_MC_DAMAGE_CAUSE
+                             PK = DCID
+                             NAME = CAUSE_NAME
+                             ================================================= -->
+
+                        <div id="damageCauseSection"
+                             class="form-group mb-4 cause-section">
+
+                            <label asp-for="MachineDmgCause"
+                                   class="form-label">
+
+                                Damage Cause
+
+                            </label>
+
+                            <select asp-for="MachineDmgCause"
+                                    id="MachineDmgCause"
+                                    class="form-control form-control-lg shadow-sm">
+
+                                <option value="">
+                                    -- Select Damage Cause --
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="MachineDmgCause"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- =================================================
+                             UNDER MAINTENANCE CAUSE
+                             TBL_MC_UM_CAUSE
+                             PK = UMCID
+                             NAME = CAUSE_NAME
+                             ================================================= -->
+
+                        <div id="umCauseSection"
+                             class="form-group mb-4 cause-section">
+
+                            <label asp-for="MachineUmCause"
+                                   class="form-label">
+
+                                Under Maintenance Cause
+
+                            </label>
+
+                            <select asp-for="MachineUmCause"
+                                    id="MachineUmCause"
+                                    class="form-control form-control-lg shadow-sm">
+
+                                <option value="">
+                                    -- Select Maintenance Cause --
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="MachineUmCause"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- =========================
+                             SUBMIT
+                             ========================= -->
+
+                        <div class="d-flex justify-content-center">
+
+                            <button type="submit"
+                                    class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg">
+
+                                Create
+
+                            </button>
+
+                        </div>
+
                     </form>
 
-                    <!-- Back to List -->
+
+                    <!-- =========================
+                         BACK
+                         ========================= -->
+
                     <div class="text-center mt-4">
-                        <a asp-action="Index" class="btn btn-outline-secondary btn-sm px-4 py-2 rounded-pill shadow-sm">Back to List</a>
+
+                        <a asp-action="Index"
+                           class="btn btn-outline-secondary btn-sm px-4 py-2 rounded-pill shadow-sm">
+
+                            Back to List
+
+                        </a>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
 
+
 @section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <!-- Select2 -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+
+
     <script>
 
         $(document).ready(function () {
-            // Load Machine IDs
+
+            // =========================================================
+            // SELECT2 INITIALIZATION
+            // =========================================================
+
+            function initializeSelect2(selector, placeholder) {
+
+                $(selector).select2({
+
+                    placeholder: placeholder,
+
+                    allowClear: true,
+
+                    width: '100%',
+
+                    minimumResultsForSearch: 0,
+
+                    dropdownAutoWidth: true
+
+                });
+
+            }
+
+
+            // =========================================================
+            // MACHINE DROPDOWN
+            // =========================================================
+
             $.ajax({
+
                 url: '/Layout/GetAllMachineIds',
+
                 type: 'GET',
+
                 success: function (response) {
+
                     if (response.success) {
+
                         const dropdown = $('#machineDropdown');
-                        // dropdown.empty().append('<option value="">-- Select a Machine --</option>');
-                        dropdown.empty().append('<option></option>');
-                        response.data.forEach(machine => {
-                            dropdown.append(`<option value="${machine.mcid}">${machine.mcid} - ${machine.srno}</option>`);
+
+                        dropdown.empty();
+
+                        dropdown.append(
+                            $('<option>', {
+                                value: '',
+                                text: '-- Select a Machine --'
+                            })
+                        );
+
+
+                        response.data.forEach(function (machine) {
+
+                            dropdown.append(
+
+                                new Option(
+
+                                    `${machine.mcid} - ${machine.srno}`,
+
+                                    machine.mcid
+
+                                )
+
+                            );
+
                         });
-                        dropdown.select2({
-                            placeholder: "Type to search by MCID or Name",
-                            allowClear: true,
-                            width: '100%'
-                        });
-                    } else {
-                        alert(response.message || 'Failed to load machine IDs.');
+
+
+                        initializeSelect2(
+
+                            '#machineDropdown',
+
+                            'Type to search by MCID or Serial No'
+
+                        );
+
                     }
+                    else {
+
+                        alert(
+
+                            response.message ||
+                            'Failed to load machine IDs.'
+
+                        );
+
+                    }
+
                 },
+
                 error: function () {
-                    alert('Error loading machine data. Please try again later.');
+
+                    alert(
+                        'Error loading machine data.'
+                    );
+
                 }
+
             });
 
-            // Load Location IDs
+
+            // =========================================================
+            // LOCATION DROPDOWN
+            // =========================================================
+
             $.ajax({
+
                 url: '/Layout/GetAllLocationIds',
+
                 type: 'GET',
+
                 success: function (response) {
+
                     if (response.success) {
+
                         const dropdown = $('#lidDropdown');
-                        // dropdown.empty().append('<option value="">-- Select a Location --</option>');
-                        dropdown.empty().append('<option></option>');
-                        response.data.forEach(location => {
-                            dropdown.append(`<option value="${location.lid}">${location.lid} - ${location.name} - ${location.companyName}</option>`);
+
+                        dropdown.empty();
+
+                        dropdown.append(
+
+                            $('<option>', {
+
+                                value: '',
+
+                                text: '-- Select a Location --'
+
+                            })
+
+                        );
+
+
+                        response.data.forEach(function (location) {
+
+                            dropdown.append(
+
+                                new Option(
+
+                                    `${location.lid} - ${location.name} - ${location.companyName}`,
+
+                                    location.lid
+
+                                )
+
+                            );
+
                         });
-                        dropdown.select2({
-                            placeholder: "Type to search by Location ID or Name",
-                            allowClear: true,
-                            width: '100%'
-                        });
-                    } else {
-                        alert(response.message || 'Failed to load location IDs.');
+
+
+                        initializeSelect2(
+
+                            '#lidDropdown',
+
+                            'Type to search by Location ID or Name'
+
+                        );
+
                     }
+                    else {
+
+                        alert(
+
+                            response.message ||
+                            'Failed to load location IDs.'
+
+                        );
+
+                    }
+
                 },
+
                 error: function () {
-                    alert('Error loading location data. Please try again later.');
+
+                    alert(
+                        'Error loading location data.'
+                    );
+
                 }
+
             });
 
-            // Fetch Location Details
+
+            // =========================================================
+            // LOCATION DETAILS
+            // =========================================================
+
             $('#lidDropdown').on('change', function () {
+
                 const lid = $(this).val();
+
+
                 if (lid) {
+
                     $.ajax({
+
                         url: '/Layout/GetLocationDetails',
+
                         type: 'GET',
-                        data: { Lid: lid },
-                        success: function (response) {
-                            if (response.success) {
-                                const details = response.data;
-                                $('#LOCATION_DETAILS').val(`${details.companyName} - ${details.buildingName}, ${details.floorName}`);
-                            } else {
-                                alert(response.message || 'Failed to retrieve location details.');
-                            }
+
+                        data: {
+                            Lid: lid
                         },
+
+                        success: function (response) {
+
+                            if (response.success) {
+
+                                const details =
+                                    response.data;
+
+
+                                $('#LOCATION_DETAILS').val(
+
+                                    `${details.companyName} - ${details.buildingName}, ${details.floorName}`
+
+                                );
+
+                            }
+                            else {
+
+                                $('#LOCATION_DETAILS').val('');
+
+                            }
+
+                        },
+
                         error: function () {
-                            alert('Error retrieving location details. Please try again later.');
+
+                            $('#LOCATION_DETAILS').val('');
+
                         }
+
                     });
-                } else {
-                    $('#LOCATION_DETAILS').val('');
+
                 }
+                else {
+
+                    $('#LOCATION_DETAILS').val('');
+
+                }
+
             });
 
-            // Set default date
-            const today = new Date().toISOString().split('T')[0];
-            $('#DATE').val(today);
-        });
-    </script>
 
+            // =========================================================
+            // LOAD IDLE CAUSES
+            // TBL_MC_IDLE_CAUSE
+            // PK: ICID
+            // NAME: CAUSE_NAME
+            // =========================================================
+
+            function loadIdleCauses() {
+
+                const dropdown =
+                    $('#MachineIdleCause');
+
+
+                // Don't reload if already loaded
+
+                if (
+                    dropdown.children('option').length > 1
+                ) {
+
+                    return;
+
+                }
+
+
+                $.ajax({
+
+                    url: '/Layout/GetIdleCauses',
+
+                    type: 'GET',
+
+                    success: function (response) {
+
+                        if (response.success) {
+
+                            dropdown.empty();
+
+
+                            dropdown.append(
+
+                                $('<option>', {
+
+                                    value: '',
+
+                                    text:
+                                        '-- Select Idle Cause --'
+
+                                })
+
+                            );
+
+
+                            response.data.forEach(
+                                function (item) {
+
+                                    dropdown.append(
+
+                                        new Option(
+
+                                            item.causeName,
+
+                                            item.icid
+
+                                        )
+
+                                    );
+
+                                }
+                            );
+
+
+                            // Refresh Select2
+
+                            dropdown.trigger('change.select2');
+
+                        }
+                        else {
+
+                            alert(
+
+                                response.message ||
+                                'Failed to load idle causes.'
+
+                            );
+
+                        }
+
+                    },
+
+                    error: function () {
+
+                        alert(
+                            'Error loading idle causes.'
+                        );
+
+                    }
+
+                });
+
+            }
+
+
+            // =========================================================
+            // LOAD DAMAGE CAUSES
+            // TBL_MC_DAMAGE_CAUSE
+            // PK: DCID
+            // NAME: CAUSE_NAME
+            // =========================================================
+
+            function loadDamageCauses() {
+
+                const dropdown =
+                    $('#MachineDmgCause');
+
+
+                // Don't reload if already loaded
+
+                if (
+                    dropdown.children('option').length > 1
+                ) {
+
+                    return;
+
+                }
+
+
+                $.ajax({
+
+                    url: '/Layout/GetDamageCauses',
+
+                    type: 'GET',
+
+                    success: function (response) {
+
+                        if (response.success) {
+
+                            dropdown.empty();
+
+
+                            dropdown.append(
+
+                                $('<option>', {
+
+                                    value: '',
+
+                                    text:
+                                        '-- Select Damage Cause --'
+
+                                })
+
+                            );
+
+
+                            response.data.forEach(
+                                function (item) {
+
+                                    dropdown.append(
+
+                                        new Option(
+
+                                            item.causeName,
+
+                                            item.dcid
+
+                                        )
+
+                                    );
+
+                                }
+                            );
+
+
+                            // Refresh Select2
+
+                            dropdown.trigger('change.select2');
+
+                        }
+                        else {
+
+                            alert(
+
+                                response.message ||
+                                'Failed to load damage causes.'
+
+                            );
+
+                        }
+
+                    },
+
+                    error: function () {
+
+                        alert(
+                            'Error loading damage causes.'
+                        );
+
+                    }
+
+                });
+
+            }
+
+
+            // =========================================================
+            // LOAD UNDER MAINTENANCE CAUSES
+            // TBL_MC_UM_CAUSE
+            // PK: UMCID
+            // NAME: CAUSE_NAME
+            // =========================================================
+
+            function loadUmCauses() {
+
+                const dropdown =
+                    $('#MachineUmCause');
+
+
+                // Don't reload if already loaded
+
+                if (
+                    dropdown.children('option').length > 1
+                ) {
+
+                    return;
+
+                }
+
+
+                $.ajax({
+
+                    url: '/Layout/GetUmCauses',
+
+                    type: 'GET',
+
+                    success: function (response) {
+
+                        if (response.success) {
+
+                            dropdown.empty();
+
+
+                            dropdown.append(
+
+                                $('<option>', {
+
+                                    value: '',
+
+                                    text:
+                                        '-- Select Maintenance Cause --'
+
+                                })
+
+                            );
+
+
+                            response.data.forEach(
+                                function (item) {
+
+                                    dropdown.append(
+
+                                        new Option(
+
+                                            item.causeName,
+
+                                            item.umcid
+
+                                        )
+
+                                    );
+
+                                }
+                            );
+
+
+                            // Refresh Select2
+
+                            dropdown.trigger('change.select2');
+
+                        }
+                        else {
+
+                            alert(
+
+                                response.message ||
+                                'Failed to load maintenance causes.'
+
+                            );
+
+                        }
+
+                    },
+
+                    error: function () {
+
+                        alert(
+                            'Error loading maintenance causes.'
+                        );
+
+                    }
+
+                });
+
+            }
+
+
+            // =========================================================
+            // INITIALIZE CAUSE SELECT2
+            // =========================================================
+
+            initializeSelect2(
+
+                '#MachineIdleCause',
+
+                '-- Select Idle Cause --'
+
+            );
+
+
+            initializeSelect2(
+
+                '#MachineDmgCause',
+
+                '-- Select Damage Cause --'
+
+            );
+
+
+            initializeSelect2(
+
+                '#MachineUmCause',
+
+                '-- Select Maintenance Cause --'
+
+            );
+
+
+            // =========================================================
+            // STATUS CHANGE
+            // =========================================================
+
+            $('#statusDropdown').on('change', function () {
+
+                const status = $(this).val();
+
+
+                // =====================================================
+                // HIDE ALL CAUSE SECTIONS
+                // =====================================================
+
+                $('#idleCauseSection').hide();
+
+                $('#damageCauseSection').hide();
+
+                $('#umCauseSection').hide();
+
+
+                // =====================================================
+                // REMOVE REQUIRED FROM ALL
+                // =====================================================
+
+                $('#MachineIdleCause')
+                    .prop('required', false);
+
+                $('#MachineDmgCause')
+                    .prop('required', false);
+
+                $('#MachineUmCause')
+                    .prop('required', false);
+
+
+                // =====================================================
+                // CLEAR ALL CAUSES
+                // =====================================================
+
+                $('#MachineIdleCause')
+                    .val('')
+                    .trigger('change');
+
+
+                $('#MachineDmgCause')
+                    .val('')
+                    .trigger('change');
+
+
+                $('#MachineUmCause')
+                    .val('')
+                    .trigger('change');
+
+
+                // =====================================================
+                // IDLE
+                // =====================================================
+
+                if (status === 'Idle') {
+
+                    $('#idleCauseSection').show();
+
+
+                    // REQUIRED
+
+                    $('#MachineIdleCause')
+                        .prop('required', true);
+
+
+                    // LOAD DATA
+
+                    loadIdleCauses();
+
+                }
+
+
+                // =====================================================
+                // DAMAGED
+                // =====================================================
+
+                else if (status === 'Damaged') {
+
+                    $('#damageCauseSection').show();
+
+
+                    // REQUIRED
+
+                    $('#MachineDmgCause')
+                        .prop('required', true);
+
+
+                    // LOAD DATA
+
+                    loadDamageCauses();
+
+                }
+
+
+                // =====================================================
+                // UNDER MAINTENANCE
+                // =====================================================
+
+                else if (
+
+                    status === 'Under maintenance' ||
+
+                    status === 'Under Maintenance'
+
+                ) {
+
+                    $('#umCauseSection').show();
+
+
+                    // REQUIRED
+
+                    $('#MachineUmCause')
+                        .prop('required', true);
+
+
+                    // LOAD DATA
+
+                    loadUmCauses();
+
+                }
+
+
+                // =====================================================
+                // RUNNING
+                // =====================================================
+
+                else if (status === 'Running') {
+
+                    // Nothing to show
+
+                }
+
+            });
+
+
+            // =========================================================
+            // DEFAULT DATE
+            // =========================================================
+
+            const today =
+                new Date()
+                    .toISOString()
+                    .split('T')[0];
+
+
+            $('#DATE').val(today);
+
+
+            // =========================================================
+            // INITIAL STATE
+            // =========================================================
+
+            $('#idleCauseSection').hide();
+
+            $('#damageCauseSection').hide();
+
+            $('#umCauseSection').hide();
+
+
+            // =========================================================
+            // INITIAL REQUIRED STATE
+            // =========================================================
+
+            $('#MachineIdleCause')
+                .prop('required', false);
+
+            $('#MachineDmgCause')
+                .prop('required', false);
+
+            $('#MachineUmCause')
+                .prop('required', false);
+
+
+            // =========================================================
+            // FORM SUBMIT VALIDATION
+            // Extra safety
+            // =========================================================
+
+            $('form').on('submit', function (e) {
+
+                const status =
+                    $('#statusDropdown').val();
+
+
+                // =====================================================
+                // IDLE VALIDATION
+                // =====================================================
+
+                if (status === 'Idle') {
+
+                    const cause =
+                        $('#MachineIdleCause').val();
+
+
+                    if (!cause) {
+
+                        e.preventDefault();
+
+
+                        $('#idleCauseSection').show();
+
+
+                        $('#MachineIdleCause')
+                            .prop('required', true);
+
+
+                        alert(
+                            'Please select an Idle Cause.'
+                        );
+
+
+                        return false;
+                    }
+
+                }
+
+
+                // =====================================================
+                // DAMAGE VALIDATION
+                // =====================================================
+
+                if (status === 'Damaged') {
+
+                    const cause =
+                        $('#MachineDmgCause').val();
+
+
+                    if (!cause) {
+
+                        e.preventDefault();
+
+
+                        $('#damageCauseSection').show();
+
+
+                        $('#MachineDmgCause')
+                            .prop('required', true);
+
+
+                        alert(
+                            'Please select a Damage Cause.'
+                        );
+
+
+                        return false;
+                    }
+
+                }
+
+
+                // =====================================================
+                // UNDER MAINTENANCE VALIDATION
+                // =====================================================
+
+                if (
+
+                    status === 'Under maintenance' ||
+
+                    status === 'Under Maintenance'
+
+                ) {
+
+                    const cause =
+                        $('#MachineUmCause').val();
+
+
+                    if (!cause) {
+
+                        e.preventDefault();
+
+
+                        $('#umCauseSection').show();
+
+
+                        $('#MachineUmCause')
+                            .prop('required', true);
+
+
+                        alert(
+                            'Please select a Maintenance Cause.'
+                        );
+
+
+                        return false;
+                    }
+
+                }
+
+
+                // =====================================================
+                // RUNNING
+                // =====================================================
+
+                if (status === 'Running') {
+
+                    // No cause validation required
+
+                }
+
+
+                // =====================================================
+                // ALLOW SUBMIT
+                // =====================================================
+
+                return true;
+
+            });
+
+        });
+
+    </script>
 }
+

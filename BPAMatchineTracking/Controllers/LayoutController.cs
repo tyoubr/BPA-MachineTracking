@@ -462,5 +462,83 @@ namespace BPAMatchineTrack.Controllers
         {
             return _context.tbl_Layouts.Any(e => e.SLNO == id);
         }
+
+        // ============================================================
+        // GET IDLE CAUSES
+        // Table: TBL_MC_IDLE_CAUSE
+        // PK: ICID
+        // Name: CAUSE_NAME
+        // ============================================================
+
+        [HttpGet]
+        public IActionResult GetIdleCauses()
+        {
+            var data = _context.TblMcIdleCause
+                .Select(x => new
+                {
+                    icid = x.Icid,
+                    causeName = x.CauseName
+                })
+                .ToList();
+
+            return Json(new
+            {
+                success = true,
+                data = data
+            });
+        }
+
+
+        // ============================================================
+        // GET DAMAGE CAUSES
+        // Table: TBL_MC_DAMAGE_CAUSE
+        // PK: DCID
+        // Name: CAUSE_NAME
+        // ============================================================
+
+        [HttpGet]
+        public IActionResult GetDamageCauses()
+        {
+            var data = _context.TblMcDamageCause
+                .Select(x => new
+                {
+                    dcid = x.Dcid,
+                    causeName = x.CauseName
+                })
+                .ToList();
+
+            return Json(new
+            {
+                success = true,
+                data = data
+            });
+        }
+
+
+        // ============================================================
+        // GET UNDER MAINTENANCE CAUSES
+        // Table: TBL_MC_UM_CAUSE
+        // PK: UMCID
+        // Name: CAUSE_NAME
+        // ============================================================
+
+        [HttpGet]
+        public IActionResult GetUmCauses()
+        {
+            var data = _context.TblMcUmCause
+                .Select(x => new
+                {
+                    umcid = x.Umcid,
+                    causeName = x.CauseName
+                })
+                .ToList();
+
+            return Json(new
+            {
+                success = true,
+                data = data
+            });
+        }
+
     }
 }

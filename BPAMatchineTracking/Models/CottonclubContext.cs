@@ -249,6 +249,9 @@ namespace BPAMatchineTrack.Models
 
                 entity.Property(e => e.DATE)
                     .HasColumnType("datetime");
+                entity.Property(e => e.MachineUmCause).HasColumnName("MACHINE_UM_CAUSE");
+                entity.Property(e => e.MachineDmgCause).HasColumnName("MACHINE_DMG_CAUSE");
+                entity.Property(e => e.MachineIdleCause).HasColumnName("MACHINE_IDL_CAUSE");
             });
 
 

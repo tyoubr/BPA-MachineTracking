@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BPAMachineTrack.Models;
@@ -13,7 +14,7 @@ public partial class tbl_Layout
     public int? MCID { get; set; }
 
     public int? LID { get; set; }
-
+    [Required(ErrorMessage = "This field is required,Please Select the Location.")]
     public string? LOCATION_DETAILS { get; set; }
 
     public string? STATUS { get; set; }

@@ -3,131 +3,570 @@
 @{
     ViewData["Title"] = "Edit";
 }
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
+<style>
+    /* =========================
+           Common Form Styling
+           ========================= */
+
+    .form-control,
+    .form-select {
+        min-height: 48px;
+        font-size: 1.1rem;
+    }
+
+    /* =========================
+           Select2 Styling
+           Make LID same size as other fields
+           ========================= */
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        height: 48px !important;
+        min-height: 48px !important;
+        border: 1px solid #ced4da !important;
+        border-radius: 0.375rem !important;
+        background-color: #fff !important;
+        box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+    }
+
+        .select2-container--default
+        .select2-selection--single
+        .select2-selection__rendered {
+            line-height: 46px !important;
+            padding-left: 16px !important;
+            padding-right: 40px !important;
+            font-size: 1.1rem !important;
+            color: #212529 !important;
+        }
+
+        .select2-container--default
+        .select2-selection--single
+        .select2-selection__placeholder {
+            color: #6c757d !important;
+        }
+
+        .select2-container--default
+        .select2-selection--single
+        .select2-selection__arrow {
+            height: 46px !important;
+            right: 8px !important;
+        }
+
+    /* Focus effect same as Bootstrap */
+    .select2-container--default.select2-container--focus
+    .select2-selection--single,
+    .select2-container--default.select2-container--open
+    .select2-selection--single {
+        border-color: #86b7fe !important;
+        outline: 0 !important;
+        box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25) !important;
+    }
+
+    /* Select2 dropdown */
+    .select2-container--default .select2-dropdown {
+        border-color: #86b7fe !important;
+    }
+
+    .select2-container--default .select2-search--dropdown .select2-search__field {
+        padding: 8px 10px !important;
+        font-size: 1rem !important;
+    }
+
+    .select2-container--default .select2-results__option {
+        padding: 10px 12px !important;
+    }
+
+    /* =========================
+           Card
+           ========================= */
+
+    .card {
+        border: none;
+    }
+
+    /* =========================
+           Labels
+           ========================= */
+
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+</style>
+
+
 <div class="container py-5">
+
     <div class="row justify-content-center">
+
         <div class="col-lg-8 col-md-10 col-12">
+
             <div class="card shadow-lg p-4 rounded-lg">
+
                 <div class="card-body">
-                    <h1 class="text-center text-primary mb-4">Edit Machine's Current Location</h1>
+
+                    <h1 class="text-center text-primary mb-4">
+                        Edit Machine's Current Location
+                    </h1>
+
                     <hr />
 
                     <!-- Success Message -->
                     @if (TempData["SuccessMessage"] != null)
                     {
-                        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                        <div class="alert alert-success">
+                            @TempData["SuccessMessage"]
+                        </div>
                     }
 
+
                     <form asp-action="Edit" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- Validation -->
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+
+                        <!-- Hidden Fields -->
                         <input type="hidden" asp-for="SLNO" />
                         <input type="hidden" asp-for="MCID" />
 
-                        <div class="form-group mb-3">
-                            <label asp-for="DATE" class="form-label">Date</label>
-                            <input asp-for="DATE" class="form-control form-control-lg shadow-sm" type="date" required />
-                            <span asp-validation-for="DATE" class="text-danger"></span>
-                        </div>
+
+                        <!-- =========================
+                             DATE
+                             ========================= -->
 
                         <div class="form-group mb-3">
-                            <label for="lidDropdown" class="form-label">Location ID/Name:</label>
-                            <select id="lidDropdown" name="LID" class="form-select">
-                                <option value="">-- Select a Location --</option>
+
+                            <label asp-for="DATE"
+                                   class="form-label">
+                                Date
+                            </label>
+
+                            <input asp-for="DATE"
+                                   class="form-control form-control-lg shadow-sm"
+                                   type="date"
+                                   required />
+
+                            <span asp-validation-for="DATE"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- =========================
+                             LOCATION ID
+                             ========================= -->
+
+                        <div class="form-group mb-3">
+
+                            <label for="lidDropdown"
+                                   class="form-label">
+                                Location ID/Name:
+                            </label>
+
+                            <select id="lidDropdown"
+                                    name="LID"
+                                    class="form-control form-control-lg shadow-sm">
+
+                                <option value="">
+                                    -- Select a Location --
+                                </option>
+
                             </select>
-                            <span asp-validation-for="LID" class="text-danger"></span>
+
+                            <span asp-validation-for="LID"
+                                  class="text-danger">
+                            </span>
+
                         </div>
 
+
+                        <!-- =========================
+                             LOCATION DETAILS
+                             ========================= -->
+
                         <div class="form-group mb-3">
-                            <label asp-for="LOCATION_DETAILS" class="form-label">Location Details</label>
-                            <input id="LOCATION_DETAILS" asp-for="LOCATION_DETAILS" class="form-control form-control-lg shadow-sm" readonly />
-                            <span asp-validation-for="LOCATION_DETAILS" class="text-danger"></span>
+
+                            <label asp-for="LOCATION_DETAILS"
+                                   class="form-label">
+                                Location Details
+                            </label>
+
+                            <input id="LOCATION_DETAILS"
+                                   asp-for="LOCATION_DETAILS"
+                                   class="form-control form-control-lg shadow-sm"
+                                   readonly />
+
+                            <span asp-validation-for="LOCATION_DETAILS"
+                                  class="text-danger">
+                            </span>
+
                         </div>
+
+
+                        <!-- =========================
+                             OTHER COMPANY
+                             ========================= -->
                         @if (User.IsInRole("Admin") || User.IsInRole("Super Admin"))
                         {
                             <div class="form-group mb-4">
-                                <label asp-for="OCID" class="form-label">Others Company</label>
-                                <select asp-for="OCID" class="form-control form-control-lg shadow-sm" asp-items="ViewBag.Companies">
-                                    <option value="">-- Select Company --</option>
+
+                                <label asp-for="OCID"
+                                       class="form-label">
+                                    Others Company
+                                </label>
+
+                                <select asp-for="OCID"
+                                        class="form-control form-control-lg shadow-sm"
+                                        asp-items="ViewBag.Companies">
+
+                                    <option value="">
+                                        -- Select Company --
+                                    </option>
+
                                 </select>
-                                <span asp-validation-for="OCID" class="text-danger"></span>
+
+                                <span asp-validation-for="OCID"
+                                      class="text-danger">
+                                </span>
+
                             </div>
                         }
 
+
+                        <!-- =========================
+                             STATUS
+                             ========================= -->
+
                         <div class="form-group mb-4">
-                            <label asp-for="STATUS" class="form-label">Status</label>
-                            <select asp-for="STATUS" class="form-control form-control-lg shadow-sm" id="statusDropdown">
-                                <option value="">-- Select Status --</option>
-                                <option value="Running">Running</option>
-                                <option value="Idle">Idle</option>
-                                <option value="Under Maintenance">Under Maintenance</option>
-                                <option value="Damaged">Damaged</option>
+
+                            <label asp-for="STATUS"
+                                   class="form-label">
+                                Status
+                            </label>
+
+                            <select asp-for="STATUS"
+                                    class="form-control form-control-lg shadow-sm"
+                                    id="statusDropdown">
+
+                                <option value="">
+                                    -- Select Status --
+                                </option>
+
+                                <option value="Running">
+                                    Running
+                                </option>
+
+                                <option value="Idle">
+                                    Idle
+                                </option>
+
+                                <option value="Under Maintenance">
+                                    Under Maintenance
+                                </option>
+
+                                <option value="Damaged">
+                                    Damaged
+                                </option>
+
                             </select>
-                            <span asp-validation-for="STATUS" class="text-danger"></span>
+
+                            <span asp-validation-for="STATUS"
+                                  class="text-danger">
+                            </span>
+
                         </div>
+
+
+                        <!-- =========================
+                             BUTTONS
+                             ========================= -->
 
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg">Save Changes</button>
+
+                            <button type="submit"
+                                    class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg">
+
+                                Update
+
+                            </button>
+
                         </div>
+
                     </form>
 
+
+                    <!-- Back Button -->
+
                     <div class="text-center mt-4">
-                        <a asp-action="Index" class="btn btn-outline-secondary btn-sm px-4 py-2 rounded-pill shadow-sm">Back to List</a>
+
+                        <a asp-action="Index"
+                           class="btn btn-outline-secondary btn-sm px-4 py-2 rounded-pill shadow-sm">
+
+                            Back to List
+
+                        </a>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
 
+
 @section Scripts {
+
+    <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Select2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+
     <script>
+
         $(document).ready(function () {
-            const status = '@Model.STATUS' || '';
-            $('#statusDropdown').val(status);
+
+            // =====================================================
+            // Current Model Values
+            // =====================================================
+
+            const currentLid = Number(@Model.LID);
+
+            const currentStatus = '@Html.Raw(Model.STATUS ?? "")';
+
+
+            // =====================================================
+            // Set Status
+            // =====================================================
+
+            $('#statusDropdown').val(currentStatus);
+
+
+            // =====================================================
+            // Load All Locations
+            // =====================================================
 
             $.ajax({
+
                 url: '/Layout/GetAllLocationIds',
+
                 type: 'GET',
+
                 success: function (response) {
+
                     if (response.success) {
+
                         const dropdown = $('#lidDropdown');
+
+                        // Clear dropdown
                         dropdown.empty();
-                        dropdown.append('<option value="">-- Select a Location --</option>');
+
+                        // Default option
+                        dropdown.append(
+                            $('<option>', {
+                                value: '',
+                                text: '-- Select a Location --'
+                            })
+                        );
+
+
+                        // =====================================================
+                        // Add Locations
+                        // =====================================================
 
                         response.data.forEach(function (location) {
-                            dropdown.append(`<option value="${location.lid}" ${location.lid === '@Model.LID' ? 'selected' : ''}>${location.lid} - ${location.name}-${location.companyName}</option>`);
+
+                            const lid = Number(location.lid);
+
+                            // IMPORTANT:
+                            // Both values converted to Number
+                            // so int/string mismatch will not happen.
+                            const isSelected = lid === currentLid;
+
+
+                            const option = $('<option>', {
+
+                                value: lid,
+
+                                text:
+                                    lid +
+                                    ' - ' +
+                                    (location.name || '') +
+                                    ' - ' +
+                                    (location.companyName || ''),
+
+                                selected: isSelected
+
+                            });
+
+
+                            dropdown.append(option);
+
                         });
 
-                        $('#lidDropdown').select2({
+
+                        // =====================================================
+                        // Initialize Select2
+                        // =====================================================
+
+                        dropdown.select2({
+
                             placeholder: "Type to search by Location ID or Name",
+
                             allowClear: true,
+
                             width: '100%',
-                            minimumInputLength: 1
+
+                            minimumInputLength: 0,
+
+                            dropdownAutoWidth: true
+
                         });
+
+
+                        // =====================================================
+                        // Set Current LID
+                        // =====================================================
+
+                        if (currentLid > 0) {
+
+                            dropdown
+                                .val(currentLid)
+                                .trigger('change');
+
+                        }
+
                     }
+                    else {
+
+                        console.log(
+                            "Failed to load locations."
+                        );
+
+                    }
+
+                },
+
+                error: function (xhr, status, error) {
+
+                    console.log(
+                        "Error loading locations:",
+                        error
+                    );
+
                 }
+
             });
+
+
+            // =====================================================
+            // LID Change Event
+            // =====================================================
 
             $('#lidDropdown').on('change', function () {
+
                 const lid = $(this).val();
-                if (lid) {
-                    $.ajax({
-                        url: '/Layout/GetLocationDetails',
-                        type: 'GET',
-                        data: { Lid: lid },
-                        success: function (response) {
-                            if (response.success) {
-                                $('#LOCATION_DETAILS').val(`${response.data.companyName} - ${response.data.buildingName}, ${response.data.floorName}`);
-                            }
-                        }
-                    });
-                } else {
+
+
+                // If no LID selected
+                if (!lid) {
+
                     $('#LOCATION_DETAILS').val('');
+
+                    return;
                 }
+
+
+                // =====================================================
+                // Get Location Details
+                // =====================================================
+
+                $.ajax({
+
+                    url: '/Layout/GetLocationDetails',
+
+                    type: 'GET',
+
+                    data: {
+                        Lid: lid
+                    },
+
+                    success: function (response) {
+
+                        if (response.success) {
+
+                            const data = response.data;
+
+
+                            const companyName =
+                                data.companyName || '';
+
+                            const buildingName =
+                                data.buildingName || '';
+
+                            const floorName =
+                                data.floorName || '';
+
+
+                            // Set Location Details
+                            $('#LOCATION_DETAILS').val(
+
+                                companyName +
+                                ' - ' +
+                                buildingName +
+                                ', ' +
+                                floorName
+
+                            );
+
+                        }
+                        else {
+
+                            $('#LOCATION_DETAILS').val('');
+
+                        }
+
+                    },
+
+                    error: function (xhr, status, error) {
+
+                        console.log(
+                            "Error loading location details:",
+                            error
+                        );
+
+                        $('#LOCATION_DETAILS').val('');
+
+                    }
+
+                });
+
             });
+
         });
+
     </script>
+
+
+    <!-- Client-side Validation -->
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
 }

@@ -12,7 +12,7 @@ public partial class tbl_Layout
     public DateTime? DATE { get; set; }
 
     public int? MCID { get; set; }
-
+    [Required(ErrorMessage = "This field is required,Please Select 1st and try again.")]
     public int? LID { get; set; }
     [Required(ErrorMessage = "This field is required,Please Select the Location.")]
     public string? LOCATION_DETAILS { get; set; }

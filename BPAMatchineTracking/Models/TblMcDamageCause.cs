@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BPAMatchineTracking.Models;
+namespace BPAMatchineTrack.Models;
 
 public partial class TblMcDamageCause
 {
-    public int? Dcid { get; set; }
+    public int Dcid { get; set; }
 
     public string? CauseName { get; set; }
 

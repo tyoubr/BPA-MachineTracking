@@ -1,5 +1,4 @@
 ﻿using BPAMachineTrack.Models;
-using BPAMatchineTracking.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -366,9 +365,8 @@ namespace BPAMatchineTrack.Models
 
             modelBuilder.Entity<TblMcDamageCause>(entity =>
             {
-                entity
-                    .HasNoKey()
-                    .ToTable("TBL_MC_DAMAGE_CAUSE");
+                entity.HasKey(e => e.Dcid).HasName("TBL_MC_DAMAGE_CAUSE");
+                entity.ToTable("TBL_MC_DAMAGE_CAUSE");
 
                 entity.Property(e => e.CauseName)
                     .HasMaxLength(50)

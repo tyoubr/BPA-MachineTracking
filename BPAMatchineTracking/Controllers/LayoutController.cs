@@ -353,12 +353,6 @@ namespace BPAMatchineTrack.Controllers
                 "OC_NAME",
                 layout.OCID // Pre-select current company
             );
-
-            //ViewBag.LidList = new SelectList(
-            //    _context.tbl_Layouts.ToList(),
-            //    layout.LID
-            //);
-
             return View(layout);
         }
 

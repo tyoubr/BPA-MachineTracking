@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BPAMatchineTracking.Models;
+namespace BPAMatchineTrack.Models;
 
 public partial class TblMcIdleCause
 {

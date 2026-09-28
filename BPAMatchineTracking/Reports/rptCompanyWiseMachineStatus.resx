@@ -118,17 +118,49 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="customSqlQuery1.Sql" xml:space="preserve">
-    <value>select d.Company_Name,e.Name as Machine_Name,e.Description,b.MCID,b.SRNO,b.model,b.Rcv_Date,b.Capaity,b.type,b.P_System,f.Name,
-CASE	when b.Model='Rental' then 'Yes' else 'NO' end as IS_RENT,
-a.LOCATION_DETAILS,c.Name Line_No,a.STATUS,a.DATE,e.Name+'/'+e.Description as Machine  from [dbo].[tbl_Layout] a
-left join [dbo].[tbl_Machine_Details] b on a.MCID=b.MCID
-left join [dbo].[tbl_MC_Location] c on a.LID=c.LID
-left join [dbo].[tbl_Company_Info] d on c.CID=d.CID
-left join [dbo].[tbl_Machine_Type_Info] e on b.MTID=e.MTID
-left join [dbo].[tbl_Brand_Information] f on b.BRID=f.BRID
-where b.status='Active'</value>
+    <value>SELECT 
+    d.Company_Name,
+    e.Name AS Machine_Name,
+    e.Description,
+    a.SLNO,
+    b.MCID,
+    b.SRNO,
+    b.Model,
+    b.Rcv_Date,
+    b.Capaity,
+    b.Type,
+    b.P_System,
+    f.Name AS Brand_Name,
+    CASE 
+    WHEN b.Model = 'Rental' THEN 'Yes'ELSE 'No'END AS IS_RENT,
+    a.LOCATION_DETAILS,
+    c.Name AS Line_No,
+    a.STATUS,
+
+    CASE
+        WHEN a.STATUS = 'Idle' THEN idle.CAUSE_NAME
+        WHEN a.STATUS = 'Damage' THEN dmg.CAUSE_NAME
+        WHEN a.STATUS = 'Under Maintenance' THEN um.CAUSE_NAME
+        ELSE NULL
+    END AS CAUSE,
+    a.DATE,
+    e.Name + '/' + e.Description AS Machine
+
+FROM [dbo].[tbl_Layout] a
+LEFT JOIN [dbo].[tbl_Machine_Details] b ON a.MCID = b.MCID
+LEFT JOIN [dbo].[tbl_MC_Location] c ON a.LID = c.LID
+LEFT JOIN [dbo].[tbl_Company_Info] d ON c.CID = d.CID
+LEFT JOIN [dbo].[tbl_Machine_Type_Info] e ON b.MTID = e.MTID
+LEFT JOIN [dbo].[tbl_Brand_Information] f ON b.BRID = f.BRID
+-- Idle Cause
+LEFT JOIN [dbo].[TBL_MC_IDLE_CAUSE] idle ON a.MACHINE_IDL_CAUSE = idle.ICID
+-- Damage Cause
+LEFT JOIN [dbo].[TBL_MC_DAMAGE_CAUSE] dmg ON a.MACHINE_DMG_CAUSE = dmg.DCID
+-- Under Maintenance Cause
+LEFT JOIN [dbo].[TBL_MC_UM_CAUSE] um ON a.MACHINE_UM_CAUSE = um.UMCID
+WHERE b.Status = 'Active';</value>
   </data>
   <data name="sqlDataSource1.ResultSchemaSerializable" xml:space="preserve">
-    <value>PERhdGFTZXQgTmFtZT0ic3FsRGF0YVNvdXJjZTEiPjxWaWV3IE5hbWU9IlF1ZXJ5Ij48RmllbGQgTmFtZT0iQ29tcGFueV9OYW1lIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9Ik1hY2hpbmVfTmFtZSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJEZXNjcmlwdGlvbiIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJNQ0lEIiBUeXBlPSJJbnQzMiIgLz48RmllbGQgTmFtZT0iU1JOTyIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJtb2RlbCIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJSY3ZfRGF0ZSIgVHlwZT0iRGF0ZVRpbWUiIC8+PEZpZWxkIE5hbWU9IkNhcGFpdHkiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0idHlwZSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJQX1N5c3RlbSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJOYW1lIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9IklTX1JFTlQiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iTE9DQVRJT05fREVUQUlMUyIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJMaW5lX05vIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9IlNUQVRVUyIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJEQVRFIiBUeXBlPSJEYXRlVGltZSIgLz48RmllbGQgTmFtZT0iTWFjaGluZSIgVHlwZT0iU3RyaW5nIiAvPjwvVmlldz48L0RhdGFTZXQ+</value>
+    <value>PERhdGFTZXQgTmFtZT0ic3FsRGF0YVNvdXJjZTEiPjxWaWV3IE5hbWU9IlF1ZXJ5Ij48RmllbGQgTmFtZT0iQ29tcGFueV9OYW1lIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9Ik1hY2hpbmVfTmFtZSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJEZXNjcmlwdGlvbiIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJTTE5PIiBUeXBlPSJJbnQzMiIgLz48RmllbGQgTmFtZT0iTUNJRCIgVHlwZT0iSW50MzIiIC8+PEZpZWxkIE5hbWU9IlNSTk8iIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iTW9kZWwiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iUmN2X0RhdGUiIFR5cGU9IkRhdGVUaW1lIiAvPjxGaWVsZCBOYW1lPSJDYXBhaXR5IiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9IlR5cGUiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iUF9TeXN0ZW0iIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iQnJhbmRfTmFtZSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJJU19SRU5UIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9IkxPQ0FUSU9OX0RFVEFJTFMiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iTGluZV9ObyIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJTVEFUVVMiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iQ0FVU0UiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iREFURSIgVHlwZT0iRGF0ZVRpbWUiIC8+PEZpZWxkIE5hbWU9Ik1hY2hpbmUiIFR5cGU9IlN0cmluZyIgLz48L1ZpZXc+PC9EYXRhU2V0Pg==</value>
   </data>
 </root>

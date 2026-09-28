@@ -33,9 +33,11 @@
             @* <th>Status</th>
             <th>Active Status</th>
             <th>ACTIONS</th> *@
-            <th style="width: 120px;">Status</th>          <!-- smaller -->
+            <th style="width: 120px;">Status</th>
+            <th style="width: 150px;">Reason</th>
             <th style="width: 100px;">Active Status</th>  <!-- smaller -->
             <th style="width: 150px;">ACTIONS</th>        <!-- bigger -->
+            
         </tr>
     </thead>
     <tbody id="tableBody">
@@ -52,16 +54,41 @@
                 <td>@item.LOCATION_DETAILS</td>
                 <td>@item.OC_NAME</td>
                 <td>@item.STATUS</td>
+
+                <!-- Cause -->
+                <td>
+                    @if (item.STATUS == "Idle")
+                    {
+                        @item.IdleCauseName
+                    }
+                    else if (item.STATUS == "Damage")
+                    {
+                        @item.DamageCauseName
+                    }
+                    else if (item.STATUS == "Under Maintenance")
+                    {
+                        @item.UMCauseName
+                    }
+                </td>
                 <td>@item.MachineStatus</td>
                 <td>
-                    <a href="javascript:void(0);" class="btn btn-warning btn-sm edit-btn"
-                       data-id="@item.SLNO" data-machine-status="@item.MachineStatus">Edit</a>
+                    <a href="javascript:void(0);"
+                       class="btn btn-warning btn-sm edit-btn"
+                       data-id="@item.SLNO"
+                       data-machine-status="@item.MachineStatus">
+                        Edit
+                    </a>
 
-                    <a asp-action="Details" asp-route-id="@item.SLNO" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Details"
+                       asp-route-id="@item.SLNO"
+                       class="btn btn-info btn-sm">
+                        Details
+                    </a>
                 </td>
             </tr>
         }
     </tbody>
+
 
 </table>
 

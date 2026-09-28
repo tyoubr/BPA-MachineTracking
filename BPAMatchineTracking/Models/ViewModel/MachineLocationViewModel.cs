@@ -11,4 +11,7 @@
     public string OC_NAME { get; set; }
     public string STATUS { get; set; }
     public string MachineStatus { get; set; }
+    public string IdleCauseName { get; set; }
+    public string DamageCauseName { get; set; }
+    public string UMCauseName { get; set; }
 }

@@ -81,13 +81,38 @@ namespace BPAMatchineTrack.Controllers
             int pageSize = 14;
 
             var query = from layout in _context.tbl_Layouts
-                        join location in _context.TblMcLocations on layout.LID equals location.Lid into locationJoin
+
+                        join location in _context.TblMcLocations
+                            on layout.LID equals location.Lid into locationJoin
                         from location in locationJoin.DefaultIfEmpty()
-                        join machine in _context.tbl_Machine_Details on layout.MCID equals machine.MCID
-                        join mtype in _context.TblMachineTypeInfo on machine.MTID equals mtype.Mtid
-                        join otherCompany in _context.tbl_Other_Companies on layout.OCID equals otherCompany.OCID into companyJoin
+
+                        join machine in _context.tbl_Machine_Details
+                            on layout.MCID equals machine.MCID
+
+                        join mtype in _context.TblMachineTypeInfo
+                            on machine.MTID equals mtype.Mtid
+
+                        join otherCompany in _context.tbl_Other_Companies
+                            on layout.OCID equals otherCompany.OCID into companyJoin
                         from otherCompany in companyJoin.DefaultIfEmpty()
-                        where machine.Status == "Active"   // 👈 USE MACHINE STATUS HERE
+
+                            // Idle Cause
+                        join idleCause in _context.TblMcIdleCause
+                            on layout.MachineIdleCause equals idleCause.Icid into idleCauseJoin
+                        from idleCause in idleCauseJoin.DefaultIfEmpty()
+
+                            // Damage Cause
+                        join damageCause in _context.TblMcDamageCause
+                            on layout.MachineDmgCause equals damageCause.Dcid into damageCauseJoin
+                        from damageCause in damageCauseJoin.DefaultIfEmpty()
+
+                            // Under Maintenance Cause
+                        join umCause in _context.TblMcUmCause
+                            on layout.MachineUmCause equals umCause.Umcid into umCauseJoin
+                        from umCause in umCauseJoin.DefaultIfEmpty()
+
+                        where machine.Status == "Active"
+
                         select new MachineLocationViewModel
                         {
                             SLNO = layout.SLNO,
@@ -96,12 +121,34 @@ namespace BPAMatchineTrack.Controllers
                             SRNO = machine.SRNO,
                             MachineTypeName = mtype.Name,
                             LID = layout.LID ?? 0,
-                            LocationName = location != null ? location.Name : "N/A",
+
+                            LocationName = location != null
+                                ? location.Name
+                                : "N/A",
+
                             LOCATION_DETAILS = layout.LOCATION_DETAILS,
-                            OC_NAME = otherCompany != null ? otherCompany.OC_NAME : "N/A",
+
+                            OC_NAME = otherCompany != null
+                                ? otherCompany.OC_NAME
+                                : "N/A",
+
                             STATUS = layout.STATUS,
-                            MachineStatus = machine.Status
+                            MachineStatus = machine.Status,
+
+                            // Cause Names
+                            IdleCauseName = idleCause != null
+                                ? idleCause.CauseName
+                                : null,
+
+                            DamageCauseName = damageCause != null
+                                ? damageCause.CauseName
+                                : null, 
+
+                            UMCauseName = umCause != null
+                                ? umCause.CauseName
+                                : null
                         };
+
 
             if (!string.IsNullOrEmpty(searchTerm))
             {

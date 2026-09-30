@@ -430,11 +430,11 @@
             this.Company.Name = "Company";
             dynamicListLookUpSettings1.DataMember = "Query";
             dynamicListLookUpSettings1.DataSource = this.sqlDataSource1;
-            dynamicListLookUpSettings1.DisplayMember = "Company_Name";
+            dynamicListLookUpSettings1.DisplayMember = "WORKING_COMPANY";
             dynamicListLookUpSettings1.FilterString = null;
-            dynamicListLookUpSettings1.SortMember = "Company_Name";
+            dynamicListLookUpSettings1.SortMember = "WORKING_COMPANY";
             dynamicListLookUpSettings1.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
-            dynamicListLookUpSettings1.ValueMember = "Company_Name";
+            dynamicListLookUpSettings1.ValueMember = "WORKING_COMPANY";
             this.Company.ValueSourceSettings = dynamicListLookUpSettings1;
             // 
             // calculatedField1
@@ -481,6 +481,7 @@
             this.xrTableCell15.Name = "xrTableCell15";
             this.xrTableCell15.StylePriority.UseTextAlignment = false;
             this.xrTableCell15.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
+            this.xrTableCell15.TextFormatString = "{0:dd-MMM-yy}";
             this.xrTableCell15.Weight = 0.89994310272272926D;
             // 
             // xrTableCell16
@@ -552,7 +553,9 @@
             this.PageWidth = 1400;
             this.PaperKind = DevExpress.Drawing.Printing.DXPaperKind.Legal;
             this.ParameterPanelLayoutItems.AddRange(new DevExpress.XtraReports.Parameters.ParameterPanelLayoutItem[] {
-            new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.Company, DevExpress.XtraReports.Parameters.Orientation.Horizontal)});
+            new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.Company, DevExpress.XtraReports.Parameters.Orientation.Horizontal),
+            new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.StartDate, DevExpress.XtraReports.Parameters.Orientation.Horizontal),
+            new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.EndDate, DevExpress.XtraReports.Parameters.Orientation.Horizontal)});
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.Company,
             this.StartDate,

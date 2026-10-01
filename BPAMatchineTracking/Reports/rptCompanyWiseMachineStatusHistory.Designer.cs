@@ -722,7 +722,8 @@
             this.Machine.Description = "Select Machine";
             this.Machine.MultiValue = true;
             this.Machine.Name = "Machine";
-            this.Machine.Type = typeof(int);
+            this.Machine.SelectAllValues = true;
+            this.Machine.Type = typeof(long);
             dynamicListLookUpSettings2.DataMember = "MachineList";
             dynamicListLookUpSettings2.DataSource = this.sqlDataSource1;
             dynamicListLookUpSettings2.DisplayMember = "MCID";
@@ -768,7 +769,8 @@
             this.ParameterPanelLayoutItems.AddRange(new DevExpress.XtraReports.Parameters.ParameterPanelLayoutItem[] {
             new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.Company, DevExpress.XtraReports.Parameters.Orientation.Horizontal),
             new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.StartDate, DevExpress.XtraReports.Parameters.Orientation.Horizontal),
-            new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.EndDate, DevExpress.XtraReports.Parameters.Orientation.Horizontal)});
+            new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.EndDate, DevExpress.XtraReports.Parameters.Orientation.Horizontal),
+            new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.Machine, DevExpress.XtraReports.Parameters.Orientation.Horizontal)});
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.Company,
             this.StartDate,

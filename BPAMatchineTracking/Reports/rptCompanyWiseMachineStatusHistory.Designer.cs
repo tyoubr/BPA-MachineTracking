@@ -43,12 +43,7 @@
             DevExpress.DataAccess.Sql.ColumnExpression columnExpression3 = new DevExpress.DataAccess.Sql.ColumnExpression();
             DevExpress.DataAccess.Sql.Column column4 = new DevExpress.DataAccess.Sql.Column();
             DevExpress.DataAccess.Sql.ColumnExpression columnExpression4 = new DevExpress.DataAccess.Sql.ColumnExpression();
-            DevExpress.DataAccess.Sql.SelectQuery selectQuery2 = new DevExpress.DataAccess.Sql.SelectQuery();
-            DevExpress.DataAccess.Sql.Column column5 = new DevExpress.DataAccess.Sql.Column();
-            DevExpress.DataAccess.Sql.ColumnExpression columnExpression5 = new DevExpress.DataAccess.Sql.ColumnExpression();
-            DevExpress.DataAccess.Sql.Table table2 = new DevExpress.DataAccess.Sql.Table();
-            DevExpress.DataAccess.Sql.Column column6 = new DevExpress.DataAccess.Sql.Column();
-            DevExpress.DataAccess.Sql.ColumnExpression columnExpression6 = new DevExpress.DataAccess.Sql.ColumnExpression();
+            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery1 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
             DevExpress.DataAccess.Sql.MasterDetailInfo masterDetailInfo1 = new DevExpress.DataAccess.Sql.MasterDetailInfo();
             DevExpress.DataAccess.Sql.RelationColumnInfo relationColumnInfo1 = new DevExpress.DataAccess.Sql.RelationColumnInfo();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(rptCompanyWiseMachineStatusHistory));
@@ -99,12 +94,12 @@
             this.xrTableCell8 = new DevExpress.XtraReports.UI.XRTableCell();
             this.ReportFooter = new DevExpress.XtraReports.UI.ReportFooterBand();
             this.PageFooter = new DevExpress.XtraReports.UI.PageFooterBand();
+            this.pageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.Company = new DevExpress.XtraReports.Parameters.Parameter();
             this.calculatedField1 = new DevExpress.XtraReports.UI.CalculatedField();
             this.StartDate = new DevExpress.XtraReports.Parameters.Parameter();
             this.EndDate = new DevExpress.XtraReports.Parameters.Parameter();
             this.Machine = new DevExpress.XtraReports.Parameters.Parameter();
-            this.pageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrRichText4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrRichText3)).BeginInit();
@@ -152,23 +147,13 @@
             selectQuery1.MetaSerializable = "<Meta X=\"222\" Y=\"20\" Width=\"115\" Height=\"121\" />";
             selectQuery1.Name = "CompanyList";
             selectQuery1.Tables.Add(table1);
-            columnExpression5.ColumnName = "MCID";
-            table2.MetaSerializable = "<Meta X=\"30\" Y=\"30\" Width=\"125\" Height=\"363\" />";
-            table2.Name = "tbl_Machine_Details";
-            columnExpression5.Table = table2;
-            column5.Expression = columnExpression5;
-            columnExpression6.ColumnName = "Name";
-            columnExpression6.Table = table2;
-            column6.Expression = columnExpression6;
-            selectQuery2.Columns.Add(column5);
-            selectQuery2.Columns.Add(column6);
-            selectQuery2.MetaSerializable = "<Meta X=\"357\" Y=\"20\" Width=\"100\" Height=\"81\" />";
-            selectQuery2.Name = "MachineList";
-            selectQuery2.Tables.Add(table2);
+            customSqlQuery1.Name = "MachineList";
+            customSqlQuery1.Sql = "SELECT \r\n    MCID,\r\n    Name,\r\n    SRNO,\r\n    CONCAT(MCID, \'-\', SRNO) AS Machine\r" +
+    "\nFROM dbo.tbl_Machine_Details;";
             this.sqlDataSource1.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
             storedProcQuery1,
             selectQuery1,
-            selectQuery2});
+            customSqlQuery1});
             masterDetailInfo1.DetailQueryName = "CompanyList";
             relationColumnInfo1.NestedKeyColumn = "Company_Name";
             relationColumnInfo1.ParentKeyColumn = "WORKING_COMPANY";
@@ -684,10 +669,21 @@
             this.PageFooter.HeightF = 20F;
             this.PageFooter.Name = "PageFooter";
             // 
+            // pageInfo2
+            // 
+            this.pageInfo2.Font = new DevExpress.Drawing.DXFont("Calibri", 8F, DevExpress.Drawing.DXFontStyle.Bold);
+            this.pageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(1291.999F, 0F);
+            this.pageInfo2.Name = "pageInfo2";
+            this.pageInfo2.SizeF = new System.Drawing.SizeF(75.00159F, 20F);
+            this.pageInfo2.StylePriority.UseFont = false;
+            this.pageInfo2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            this.pageInfo2.TextFormatString = "Page {0} of {1}";
+            // 
             // Company
             // 
             this.Company.Description = "Select Company";
             this.Company.Name = "Company";
+            this.Company.ValueInfo = "Tropical Knitex Ltd.";
             dynamicListLookUpSettings1.DataMember = "CompanyList";
             dynamicListLookUpSettings1.DataSource = this.sqlDataSource1;
             dynamicListLookUpSettings1.DisplayMember = "Company_Name";
@@ -723,25 +719,14 @@
             this.Machine.MultiValue = true;
             this.Machine.Name = "Machine";
             this.Machine.SelectAllValues = true;
-            this.Machine.Type = typeof(long);
             dynamicListLookUpSettings2.DataMember = "MachineList";
             dynamicListLookUpSettings2.DataSource = this.sqlDataSource1;
-            dynamicListLookUpSettings2.DisplayMember = "MCID";
+            dynamicListLookUpSettings2.DisplayMember = "Machine";
             dynamicListLookUpSettings2.FilterString = null;
-            dynamicListLookUpSettings2.SortMember = "MCID";
+            dynamicListLookUpSettings2.SortMember = "Machine";
             dynamicListLookUpSettings2.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
             dynamicListLookUpSettings2.ValueMember = "MCID";
             this.Machine.ValueSourceSettings = dynamicListLookUpSettings2;
-            // 
-            // pageInfo2
-            // 
-            this.pageInfo2.Font = new DevExpress.Drawing.DXFont("Calibri", 8F, DevExpress.Drawing.DXFontStyle.Bold);
-            this.pageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(1291.999F, 0F);
-            this.pageInfo2.Name = "pageInfo2";
-            this.pageInfo2.SizeF = new System.Drawing.SizeF(75.00159F, 20F);
-            this.pageInfo2.StylePriority.UseFont = false;
-            this.pageInfo2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-            this.pageInfo2.TextFormatString = "Page {0} of {1}";
             // 
             // rptCompanyWiseMachineStatusHistory
             // 
@@ -768,14 +753,14 @@
             this.PaperKind = DevExpress.Drawing.Printing.DXPaperKind.Legal;
             this.ParameterPanelLayoutItems.AddRange(new DevExpress.XtraReports.Parameters.ParameterPanelLayoutItem[] {
             new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.Company, DevExpress.XtraReports.Parameters.Orientation.Horizontal),
+            new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.Machine, DevExpress.XtraReports.Parameters.Orientation.Horizontal),
             new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.StartDate, DevExpress.XtraReports.Parameters.Orientation.Horizontal),
-            new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.EndDate, DevExpress.XtraReports.Parameters.Orientation.Horizontal),
-            new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.Machine, DevExpress.XtraReports.Parameters.Orientation.Horizontal)});
+            new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.EndDate, DevExpress.XtraReports.Parameters.Orientation.Horizontal)});
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.Company,
+            this.Machine,
             this.StartDate,
-            this.EndDate,
-            this.Machine});
+            this.EndDate});
             this.Version = "23.2";
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrRichText4)).EndInit();

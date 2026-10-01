@@ -283,6 +283,12 @@ namespace BPAMatchineTrack.Controllers
             ViewBag.ReportName = report;
             return View("~/Views/Shared/_LayoutReport.cshtml");
         }
+        public IActionResult MachineStatusHistoryReport()
+        {
+            var report = new rptCompanyWiseMachineStatusHistory();
+            ViewBag.ReportName = report;
+            return View("~/Views/Shared/_LayoutReport.cshtml");
+        }
 
     }
 }
